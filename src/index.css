@@ -1,6 +1,6 @@
 @font-face {
     font-family: MehrNastaliq;
-    src: url(MehrNastaliq.ttf);
+    src: url(/MehrNastaliq.ttf);
 }
 
 * {
@@ -98,6 +98,10 @@ img {
     background-color: #fff;
     border: 2px solid #058464;
     border-radius: 12px;
+}
+
+.card+.card {
+    margin-top: 24px;
 }
 
 .card-title {
@@ -879,5 +883,184 @@ input[type=text]:disabled {
     .success-buttons {
         flex-direction: column;
         align-items: center;
+    }
+}
+
+/* ==================== SUCCESS PAGE STYLES ==================== */
+
+/* Logo circle */
+.success-logo-wrapper {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 3px solid #058464;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.success-logo {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+}
+
+/* Jazak heading */
+.jazak-heading {
+    font-size: 48px;
+    font-weight: 900;
+    color: #000;
+    text-align: center;
+    margin: 16px 0;
+    line-height: 1.4;
+}
+
+/* Required documents list */
+.required-docs-list {
+    margin: 24px 0;
+    text-align: center;
+}
+
+.doc-item {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 2;
+    margin: 8px 0;
+}
+
+.doc-item.blue {
+    color: #2196f3;
+}
+
+.doc-item.green {
+    color: #058464;
+}
+
+.doc-item.red {
+    color: red;
+}
+
+.doc-number {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+}
+
+/* Admission date card */
+.admission-date-card {
+    background: #fff;
+    border: 2px solid #058464;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    margin: 24px auto;
+    max-width: 600px;
+}
+
+.date-line {
+    font-weight: 700;
+    line-height: 2;
+    margin: 4px 0;
+}
+
+.date-line.red {
+    color: red;
+}
+
+.date-line.blue {
+    color: #2196f3;
+}
+
+.date-line.green {
+    color: #058464;
+}
+
+/* Map container */
+.map-container {
+    margin: 24px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+}
+
+.map-container iframe {
+    display: block;
+}
+
+/* Print styles */
+@media print {
+
+    .navbar,
+    .form-steps,
+    #btn-print-form,
+    #btn-new-form,
+    #btn-print-instructions {
+        display: none !important;
+    }
+
+    .form-content {
+        margin: 0 !important;
+        padding: 16px !important;
+    }
+
+    .card {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+
+    .map-container {
+        display: none;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    /* Hide all cards except the print-only form data */
+    .card:not(.print-only) {
+        display: none !important;
+    }
+}
+
+/* Print-only elements hidden on screen */
+.print-only {
+    display: none;
+}
+
+/* Blue text utility */
+.blue_text {
+    color: #2196f3;
+    font-family: MehrNastaliq !important;
+}
+
+@media screen and (max-width: 576px) {
+    .success-logo-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+
+    .success-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .jazak-heading {
+        font-size: 36px;
+    }
+
+    .doc-item {
+        font-size: 22px;
+    }
+
+    .admission-date-card {
+        padding: 24px 16px;
     }
 }
