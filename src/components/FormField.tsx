@@ -15,6 +15,7 @@ interface FormFieldProps {
     inputStyle?: React.CSSProperties;
     numericOnly?: boolean;
     children?: ReactNode;
+    error?: string;
 }
 
 export default function FormField({
@@ -31,6 +32,7 @@ export default function FormField({
     rows = 3,
     inputStyle = {},
     numericOnly = false,
+    error,
 }: FormFieldProps) {
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -90,6 +92,12 @@ export default function FormField({
                     maxLength={maxLength}
                     style={inputStyle}
                 />
+            )}
+
+            {error && (
+                <div className="form-field-error" style={{ marginTop: '8px' }}>
+                    {error}
+                </div>
             )}
         </div>
     );

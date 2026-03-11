@@ -16,14 +16,14 @@ const ltrStyle: React.CSSProperties = {
 
 export default function FormStep2() {
     const navigate = useNavigate();
-    const { formData, updateFormData, submitForm, resetFormData, loading, error: apiError } = useFormContext();
+    const { formData, submitForm, loading, error: apiError } = useFormContext();
     const isNew = formData.admissionType === 'نیا داخلہ';
 
     /* ── local state ── */
     const [studentName, setStudentName] = useState('');
     const [fatherName, setFatherName] = useState('');
     const [dob, setDob] = useState('');
-    const [cnic, setCnic] = useState(formData.cnic);
+    const [cnic, setCnic] = useState(formData.cnic || '');
     const [phone, setPhone] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [fullAddress, setFullAddress] = useState('');
@@ -41,29 +41,52 @@ export default function FormStep2() {
     const [remarks, setRemarks] = useState('');
 
     const [error, setError] = useState(false);
+    
+    /* ── Field-level validation errors ── */
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
     const handleSubmit = async () => {
+        const errors: Record<string, string> = {};
+        
         /* ── Validate required fields ── */
-        if (!studentName || !dob || !cnic || !phone || !currentAddress) {
+        if (!studentName) errors.studentName = 'نام طالب/طالبہ درج کریں';
+        if (!dob) errors.dob = 'تاریخ پیدائش منتخب کریں';
+        if (!cnic) {
+            errors.cnic = 'شناختی کارڈ/ب فارم نمبر درج کریں';
+        } else if (cnic.length !== 13) {
+            errors.cnic = 'شناختی کارڈ نمبر 13 ہندسوں پر مشتمل ہونا چاہیے';
+        }
+        if (!phone) {
+            errors.phone = 'فون نمبر درج کریں';
+        } else if (phone.length !== 11) {
+            errors.phone = 'فون نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
+        }
+        if (whatsapp && whatsapp.length !== 11) {
+            errors.whatsapp = 'وٹس ایپ نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
+        }
+        if (!currentAddress) errors.currentAddress = 'موجودہ پتا درج کریں';
+
+        if (isNew) {
+            if (requiredGrade === PLACEHOLDER_OPTION) {
+                errors.requiredGrade = 'مطلوبہ درجہ منتخب کریں';
+            }
+        } else {
+            if (!registrationNo) errors.registrationNo = 'داخلہ نمبر درج کریں';
+            if (lastYearGrade === PLACEHOLDER_OPTION) {
+                errors.lastYearGrade = 'پچھلے سال کا درجہ منتخب کریں';
+            }
+            if (nextYearGrade === PLACEHOLDER_OPTION) {
+                errors.nextYearGrade = 'آئندہ درجہ منتخب کریں';
+            }
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
             setError(true);
             return;
         }
 
-        if (isNew && requiredGrade === PLACEHOLDER_OPTION) {
-            setError(true);
-            return;
-        }
-
-        if (
-            !isNew &&
-            (!registrationNo ||
-                lastYearGrade === PLACEHOLDER_OPTION ||
-                nextYearGrade === PLACEHOLDER_OPTION)
-        ) {
-            setError(true);
-            return;
-        }
-
+        setFieldErrors({});
         setError(false);
 
         /* ── Format CNIC: XXXXX-XXXXXXX-X ── */
@@ -122,9 +145,30 @@ export default function FormStep2() {
                                 تمام معلومات درج کریں ۔ (*) ستارے کے نشان والی تمام معلومات پُر کرنا لازمی ہیں ۔
                             </p>
 
-                            <FormField label="نام طالب/ طالبہ" required id="student-name" value={studentName} onChange={setStudentName} />
-                            <FormField label="والد کا نام" id="father-name" value={fatherName} onChange={setFatherName} />
-                            <FormField label="تاریخ پیدائش" required type="date" id="dob" value={dob} onChange={setDob} inputStyle={{ fontFamily: 'Roboto, sans-serif' }} />
+                            <FormField 
+                                label="نام طالب/ طالبہ" 
+                                required 
+                                id="student-name" 
+                                value={studentName} 
+                                onChange={setStudentName} 
+                                error={fieldErrors.studentName}
+                            />
+                            <FormField 
+                                label="والد کا نام" 
+                                id="father-name" 
+                                value={fatherName} 
+                                onChange={setFatherName} 
+                            />
+                            <FormField 
+                                label="تاریخ پیدائش" 
+                                required 
+                                type="date" 
+                                id="dob" 
+                                value={dob} 
+                                onChange={setDob} 
+                                inputStyle={{ fontFamily: 'Roboto, sans-serif' }} 
+                                error={fieldErrors.dob}
+                            />
 
                             <FormField
                                 label="شناختی کارڈ نمبر/ب فارم نمبر"
@@ -136,6 +180,7 @@ export default function FormStep2() {
                                 placeholder="xxxxxxxxxxxxx"
                                 numericOnly
                                 inputStyle={ltrStyle}
+                                error={fieldErrors.cnic}
                             />
 
                             <FormField
@@ -148,6 +193,7 @@ export default function FormStep2() {
                                 placeholder="03xxxxxxxxx"
                                 numericOnly
                                 inputStyle={ltrStyle}
+                                error={fieldErrors.phone}
                             />
 
                             <FormField
@@ -160,10 +206,25 @@ export default function FormStep2() {
                                 numericOnly
                                 inputStyle={ltrStyle}
                                 hint="(اپنا نہ ہو تو کسی عزیز کا دیا جا سکتا ہے تاہم اسکی وضاحت ضروری ہے)"
+                                error={fieldErrors.whatsapp}
                             />
 
-                            <FormField label="مکمل پتہ" type="textarea" id="full-address" value={fullAddress} onChange={setFullAddress} />
-                            <FormField label="موجودہ پتا (رہائش)" required type="textarea" id="current-address" value={currentAddress} onChange={setCurrentAddress} />
+                            <FormField 
+                                label="مکمل پتہ" 
+                                type="textarea" 
+                                id="full-address" 
+                                value={fullAddress} 
+                                onChange={setFullAddress} 
+                            />
+                            <FormField 
+                                label="موجودہ پتا (رہائش)" 
+                                required 
+                                type="textarea" 
+                                id="current-address" 
+                                value={currentAddress} 
+                                onChange={setCurrentAddress} 
+                                error={fieldErrors.currentAddress}
+                            />
 
                             <FormField
                                 label="مطلوبہ شعبہ و درجہ تعلیم"
@@ -173,6 +234,7 @@ export default function FormStep2() {
                                 value={requiredGrade}
                                 onChange={setRequiredGrade}
                                 options={gradeOptions}
+                                error={fieldErrors.requiredGrade}
                             />
 
                             <FormField
@@ -233,11 +295,33 @@ export default function FormStep2() {
                             value={registrationNo}
                             onChange={setRegistrationNo}
                             inputStyle={{ ...ltrStyle }}
+                            error={fieldErrors.registrationNo}
                         />
 
-                        <FormField label="نام طالب/ طالبہ" required id="student-name" value={studentName} onChange={setStudentName} />
-                        <FormField label="والد کا نام" id="father-name" value={fatherName} onChange={setFatherName} />
-                        <FormField label="تاریخ پیدائش" required type="date" id="dob" value={dob} onChange={setDob} inputStyle={{ fontFamily: 'Roboto, sans-serif' }} />
+                        <FormField 
+                            label="نام طالب/ طالبہ" 
+                            required 
+                            id="student-name" 
+                            value={studentName} 
+                            onChange={setStudentName} 
+                            error={fieldErrors.studentName}
+                        />
+                        <FormField 
+                            label="والد کا نام" 
+                            id="father-name" 
+                            value={fatherName} 
+                            onChange={setFatherName} 
+                        />
+                        <FormField 
+                            label="تاریخ پیدائش" 
+                            required 
+                            type="date" 
+                            id="dob" 
+                            value={dob} 
+                            onChange={setDob} 
+                            inputStyle={{ fontFamily: 'Roboto, sans-serif' }} 
+                            error={fieldErrors.dob}
+                        />
 
                         <FormField
                             label="شناختی کارڈ/ب فارم نمبر"
@@ -249,6 +333,7 @@ export default function FormStep2() {
                             placeholder="xxxxxxxxxxxxx"
                             numericOnly
                             inputStyle={ltrStyle}
+                            error={fieldErrors.cnic}
                         />
 
                         <FormField
@@ -261,6 +346,7 @@ export default function FormStep2() {
                             placeholder="03xxxxxxxxx"
                             numericOnly
                             inputStyle={ltrStyle}
+                            error={fieldErrors.phone}
                         />
 
                         <FormField
@@ -273,10 +359,25 @@ export default function FormStep2() {
                             numericOnly
                             inputStyle={ltrStyle}
                             hint="(اپنا نمبر نہ ہو تو کسی عزیز کا لکھیں تاہم اسکی وضاحت ضروری ہے)"
+                            error={fieldErrors.whatsapp}
                         />
 
-                        <FormField label="مکمل پتہ" type="textarea" id="full-address" value={fullAddress} onChange={setFullAddress} />
-                        <FormField label="موجودہ پتا (رہائش)" required type="textarea" id="current-address" value={currentAddress} onChange={setCurrentAddress} />
+                        <FormField 
+                            label="مکمل پتہ" 
+                            type="textarea" 
+                            id="full-address" 
+                            value={fullAddress} 
+                            onChange={setFullAddress} 
+                        />
+                        <FormField 
+                            label="موجودہ پتا (رہائش)" 
+                            required 
+                            type="textarea" 
+                            id="current-address" 
+                            value={currentAddress} 
+                            onChange={setCurrentAddress} 
+                            error={fieldErrors.currentAddress}
+                        />
 
                         <FormField
                             label="شعبہ و درجہ (جس میں پچھلے سال زیر تعلیم تھے)"
@@ -286,6 +387,7 @@ export default function FormStep2() {
                             value={lastYearGrade}
                             onChange={setLastYearGrade}
                             options={gradeOptions}
+                            error={fieldErrors.lastYearGrade}
                         />
 
                         <FormField
@@ -296,6 +398,7 @@ export default function FormStep2() {
                             value={nextYearGrade}
                             onChange={setNextYearGrade}
                             options={gradeOptions}
+                            error={fieldErrors.nextYearGrade}
                         />
 
                         <FormField
@@ -303,6 +406,7 @@ export default function FormStep2() {
                             id="exam-part1-marks"
                             value={examPart1Marks}
                             onChange={setExamPart1Marks}
+                            numericOnly
                             inputStyle={ltrStyle}
                         />
 
@@ -311,6 +415,7 @@ export default function FormStep2() {
                             id="exam-part2-marks"
                             value={examPart2Marks}
                             onChange={setExamPart2Marks}
+                            numericOnly
                             inputStyle={ltrStyle}
                         />
 
@@ -319,6 +424,7 @@ export default function FormStep2() {
                             id="total-marks"
                             value={totalMarks}
                             onChange={setTotalMarks}
+                            numericOnly
                             inputStyle={ltrStyle}
                         />
 
