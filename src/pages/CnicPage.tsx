@@ -60,7 +60,7 @@ export default function CnicPage() {
                             <span className="red_text" style={{ fontSize: '32px' }}>شناختی کارڈ نمبر</span>{' '}
                             یا{' '}
                             <span className="red_text" style={{ fontSize: '32px' }}>ب فارم نمبر</span>{' '}
-                            درج کرے ۔{' '}
+                            درج کریں ۔{' '}
                             <span className="green_text" style={{ fontSize: '32px' }}>(بغیر ڈیش کے)</span>
                         </p>
 

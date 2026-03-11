@@ -95,7 +95,7 @@ img {
 
 /* Form Content */
 .form-content {
-    margin: 240px auto 0;
+    margin: 180px auto 40px;
     max-width: 992px;
     padding: 32px 56px;
     width: 100%;
@@ -103,7 +103,6 @@ img {
 
 /* Card */
 .card {
-    margin-top: 50px;
     background-color: #fff;
     border: 2px solid #058464;
     border-radius: 12px;
@@ -533,7 +532,7 @@ label .redText {
 /* Responsive */
 @media screen and (max-width: 992px) {
     .form-content {
-        margin: 170px auto 60px !important;
+        margin: 180px auto 40px !important;
         padding: 16px;
         width: 96%;
     }
@@ -1003,47 +1002,6 @@ input[type=text]:disabled {
     display: block;
 }
 
-/* Print styles */
-@media print {
-
-    .navbar,
-    .form-steps,
-    #btn-print-form,
-    #btn-new-form,
-    #btn-print-instructions {
-        display: none !important;
-    }
-
-    .form-content {
-        margin: 0 !important;
-        padding: 16px !important;
-    }
-
-    .card {
-        break-inside: avoid;
-        border: 1px solid #ccc;
-        box-shadow: none;
-    }
-
-    .map-container {
-        display: none;
-    }
-
-    body {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-
-    .print-only {
-        display: block !important;
-    }
-
-    /* Hide all cards except the print-only form data */
-    .card:not(.print-only) {
-        display: none !important;
-    }
-}
-
 /* Print-only elements hidden on screen */
 .print-only {
     display: none;
@@ -1125,5 +1083,428 @@ input[type=text]:disabled {
 
     .detail-label {
         margin-bottom: 8px;
+    }
+}
+
+/* ==================== PRINTABLE FORM STYLES ==================== */
+
+.printable-form {
+    display: none;
+}
+
+@media print {
+    /* Hide screen-only elements */
+    .navbar,
+    .form-steps,
+    .App {
+        display: none !important;
+    }
+
+    /* Show printable form */
+    .printable-form {
+        display: block !important;
+        position: relative;
+        width: 100%;
+    }
+
+    /* Page setup */
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
+    /* Force page breaks */
+    .print-page {
+        page-break-after: always;
+        page-break-inside: avoid;
+        width: 100%;
+        height: 277mm;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .print-page:last-child {
+        page-break-after: auto;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+
+/* ==================== COVER PAGE STYLES ==================== */
+
+.cover-page {
+    padding: 0;
+    font-family: MehrNastaliq, sans-serif;
+    direction: rtl;
+    background: white;
+    height: 277mm;
+    box-sizing: border-box;
+}
+
+.cover-border {
+    border: 2.5px solid #000;
+    padding: 6mm;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.cover-header {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.cover-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+.cover-subtitle {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.cover-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.cover-text {
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+.instructions-list {
+    margin: 10px 0;
+}
+
+.instruction-item {
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: justify;
+    margin: 5px 0;
+    padding-right: 5px;
+}
+
+.bullet {
+    font-size: 16px;
+    margin-left: 4px;
+}
+
+.cover-footer {
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.important-note {
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.note-label {
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+.signature-section {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.signature-box {
+    text-align: center;
+}
+
+.signature-label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.signature-line {
+    font-family: Roboto, sans-serif;
+    direction: ltr;
+    font-size: 13px;
+}
+
+.authority-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.authority-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.authority-name {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+/* ==================== FORM PAGE STYLES ==================== */
+
+.form-page {
+    padding: 0;
+    font-family: MehrNastaliq, sans-serif;
+    direction: rtl;
+    background: white;
+    height: 277mm;
+    box-sizing: border-box;
+}
+
+.form-border {
+    border: 2px solid #000;
+    padding: 5mm;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.form-header-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.logo-container {
+    width: 55px;
+    height: 55px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.form-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.form-title-section {
+    flex: 1;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.bismillah {
+    font-size: 17px;
+    margin-bottom: 3px;
+}
+
+.form-main-title {
+    font-size: 28px;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+.form-meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.meta-box {
+    border: 1px solid #000;
+    padding: 2px 4px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.meta-label {
+    font-weight: 700;
+}
+
+.meta-value {
+    font-family: Roboto, sans-serif;
+    direction: ltr;
+}
+
+.form-banner {
+    background: #4a148c;
+    color: #fff;
+    text-align: center;
+    padding: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 6px 0;
+}
+
+.form-section-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    margin: 6px 0;
+}
+
+.form-intro {
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: justify;
+    margin: 6px 0;
+}
+
+.form-fields {
+    margin: 8px 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.form-row {
+    display: flex;
+    gap: 8px;
+    margin: 5px 0;
+    align-items: center;
+}
+
+.form-field-inline {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+}
+
+.form-field-inline.wide {
+    flex: 2;
+}
+
+.form-field-block {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+}
+
+.field-label {
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.field-value {
+    border-bottom: 1px solid #000;
+    flex: 1;
+    min-height: 14px;
+    font-size: 12px;
+    padding: 0 3px;
+}
+
+.field-value.ltr {
+    font-family: Roboto, sans-serif;
+    direction: ltr;
+    text-align: left;
+}
+
+.form-signatures {
+    display: flex;
+    justify-content: space-around;
+    margin: 12px 0 8px;
+}
+
+.signature-group {
+    text-align: center;
+}
+
+.stamp-circle {
+    width: 55px;
+    height: 55px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.stamp-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.signature-line-bottom {
+    font-family: Roboto, sans-serif;
+    direction: ltr;
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.signature-label-bottom {
+    font-size: 12px;
+}
+
+.form-footer-section {
+    margin-top: auto;
+    border-top: 2px solid #000;
+    padding-top: 6px;
+}
+
+.footer-box {
+    border: 2px solid #000;
+    padding: 5px;
+}
+
+.footer-label {
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 5px;
+    background: #000;
+    color: #fff;
+    padding: 2px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.footer-signature {
+    font-size: 11px;
+}
+
+.underline-space {
+    display: inline-block;
+    min-width: 60px;
+}
+
+/* Print color adjustments */
+@media print {
+    .form-banner,
+    .footer-label {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
     }
 }

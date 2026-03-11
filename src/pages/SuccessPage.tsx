@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import PrintableForm from '../components/PrintableForm';
 import type { SubmittedRecord } from '../types';
 
 export default function SuccessPage() {
@@ -19,6 +20,10 @@ export default function SuccessPage() {
     return (
         <>
             <Navbar />
+            
+            {/* Printable Form - Hidden on screen, visible on print */}
+            {record && <PrintableForm record={record} />}
+            
             <div className="App">
                 <div className="form-content">
 

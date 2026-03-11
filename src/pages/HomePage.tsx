@@ -34,7 +34,7 @@ export default function HomePage() {
                         </p>
 
                         <p className="pinkText">
-                            خلاف ورزی کی صورت میں آپ کو تادیبی کارروائی کا اختیار ہوگا ۔
+    خلاف ورزی کی صورت میں آپ کو سخت تادیبی کارروائی کا اختیار ہوگا ۔
                         </p>
 
                         <hr className="divider" />
@@ -44,7 +44,7 @@ export default function HomePage() {
                         </p>
 
                         <p className="description textCenter" style={{ fontSize: '26px' }}>
-                            ان کی روشنی میں مجھے لیئے زیر سایہ تعلیم حاصل کیئےکہ داخلہ عطا فرمایا جائے
+    ان کی روشنی میں مجھے اپنے زیر سایہ تعلیم حاصل کرنے کے داخلہ عطا فرمایا جائے
                         </p>
 
                         <hr className="divider" />

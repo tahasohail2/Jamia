@@ -217,7 +217,7 @@ export default function FormStep2() {
                                 onChange={setFullAddress} 
                             />
                             <FormField 
-                                label="موجودہ پتا (رہائش)" 
+                                label="موجودہ  پتہ (رہائش)" 
                                 required 
                                 type="textarea" 
                                 id="current-address" 
@@ -370,7 +370,7 @@ export default function FormStep2() {
                             onChange={setFullAddress} 
                         />
                         <FormField 
-                            label="موجودہ پتا (رہائش)" 
+                            label="موجودہ پتہ (رہائش)" 
                             required 
                             type="textarea" 
                             id="current-address" 
@@ -400,8 +400,9 @@ export default function FormStep2() {
                             options={gradeOptions}
                             error={fieldErrors.nextYearGrade}
                         />
-
-                        <FormField
+                        {/* If Required in future */}
+                        
+                        {/* <FormField
                             label="سالانہ امتحان پارٹ 1 : حاصل کردہ نمبر"
                             id="exam-part1-marks"
                             value={examPart1Marks}
@@ -426,7 +427,7 @@ export default function FormStep2() {
                             onChange={setTotalMarks}
                             numericOnly
                             inputStyle={ltrStyle}
-                        />
+                        /> */}
 
                         <FormField
                             label="نوٹ : سال گزشتہ میں دوران تعلیم اگر کوئی عذر یا شخصی معاملہ پیش آیا ہو تو اس کی تفصیلات لکھیے"

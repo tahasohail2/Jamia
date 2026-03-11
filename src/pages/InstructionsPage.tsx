@@ -16,7 +16,7 @@ export default function InstructionsPage() {
                         </p>
 
                         <p className="redDescription textCenter" style={{ fontSize: '36px', margin: '24px 0' }}>
-                            امیدوار آن لائن فارم میں ایک بار اگلے مرحلے میں جا کر پچھلے مرحلے میں واپس نہیں جاسکتا ۔ لہذا احتیاط سے آن لائن فارم پُر کرے ۔
+                            امیدوار آن لائن فارم میں ایک بار اگلے مرحلے میں جا کر پچھلے مرحلے میں واپس نہیں جاسکتا ۔ لہذا احتیاط سے آن لائن فارم پُر کریں ۔
                         </p>
 
                         <p className="description" style={{ marginTop: '24px' }}>

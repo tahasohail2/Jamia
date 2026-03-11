@@ -8,8 +8,8 @@ export const admissionTypes: string[] = [
 
 export const genders: string[] = [
     PLACEHOLDER_OPTION,
-    'مرد',
-    'عورت',
+    'طالب',
+    'طالبہ',
 ];
 
 export const departments: string[] = [
