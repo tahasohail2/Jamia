@@ -5,7 +5,7 @@ import { useFormContext } from '../context/FormContext';
 
 export default function RecordsPage() {
     const navigate = useNavigate();
-    const { records, deleteRecord, clearAllRecords } = useFormContext();
+    const { records, deleteRecord, clearAllRecords, loading } = useFormContext();
     const count = records.length;
 
     if (count === 0) {
@@ -35,15 +35,23 @@ export default function RecordsPage() {
         );
     }
 
-    const handleDelete = (index: number) => {
+    const handleDelete = async (id: number) => {
         if (window.confirm('کیا آپ واقعی یہ ریکارڈ حذف کرنا چاہتے ہیں؟')) {
-            deleteRecord(index);
+            try {
+                await deleteRecord(id);
+            } catch (err) {
+                console.error('Failed to delete record:', err);
+            }
         }
     };
 
-    const handleClearAll = () => {
+    const handleClearAll = async () => {
         if (window.confirm('کیا آپ واقعی تمام ریکارڈز حذف کرنا چاہتے ہیں؟')) {
-            clearAllRecords();
+            try {
+                await clearAllRecords();
+            } catch (err) {
+                console.error('Failed to clear records:', err);
+            }
         }
     };
 
@@ -112,14 +120,15 @@ export default function RecordsPage() {
                                             <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
                                                 <button
                                                     className="btn-outline-green"
-                                                    onClick={() => navigate(`/records/${idx}`)}
+                                                    onClick={() => navigate(`/records/${rec.id}`)}
                                                 >
                                                     تفصیلات دیکھیں
                                                 </button>
                                                 <button
                                                     className="btn-outline-green"
                                                     style={{ borderColor: '#c62828', color: '#c62828' }}
-                                                    onClick={() => handleDelete(idx)}
+                                                    onClick={() => handleDelete(rec.id)}
+                                                    disabled={loading}
                                                 >
                                                     حذف کریں
                                                 </button>

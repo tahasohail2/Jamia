@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
 import DataTable from '../components/DataTable';
@@ -10,8 +11,12 @@ export default function RecordDetailPage() {
     const navigate = useNavigate();
     const { records } = useFormContext();
 
-    const index = Number(id);
-    const rec = records[index];
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const recordId = Number(id);
+    const rec = records.find(r => r.id === recordId);
 
     if (!rec) {
         return (

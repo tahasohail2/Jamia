@@ -8,6 +8,7 @@ import FormStep2 from './pages/FormStep2';
 import SuccessPage from './pages/SuccessPage';
 import RecordsPage from './pages/RecordsPage';
 import RecordDetailPage from './pages/RecordDetailPage';
+import ExistingRecordPage from './pages/ExistingRecordPage';
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/cnic" element={<CnicPage />} />
+                    <Route path="/existing-record" element={<ExistingRecordPage />} />
                     <Route path="/instructions" element={<InstructionsPage />} />
                     <Route path="/form/step1" element={<FormStep1 />} />
                     <Route path="/form/step2" element={<FormStep2 />} />

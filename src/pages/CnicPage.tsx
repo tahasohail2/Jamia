@@ -3,25 +3,50 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
 import { useFormContext } from '../context/FormContext';
+import { api } from '../services/api';
 
 export default function CnicPage() {
     const navigate = useNavigate();
     const { updateFormData } = useFormContext();
     const [cnic, setCnic] = useState('');
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (val: string) => {
         setCnic(val.replace(/[^0-9]/g, ''));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!cnic || cnic.length !== 13) {
             setError(true);
             return;
         }
         setError(false);
-        updateFormData({ cnic });
-        navigate('/instructions');
+        setLoading(true);
+
+        try {
+            // Format CNIC with hyphens for API check
+            const formattedCnic = `${cnic.slice(0, 5)}-${cnic.slice(5, 12)}-${cnic.slice(12)}`;
+            
+            // Check if CNIC already exists
+            const result = await api.checkCnicExists(formattedCnic);
+            
+            if (result.exists && result.record) {
+                // CNIC exists, navigate to existing record page
+                navigate('/existing-record', { state: { record: result.record } });
+            } else {
+                // CNIC doesn't exist, proceed with form
+                updateFormData({ cnic });
+                navigate('/instructions');
+            }
+        } catch (err) {
+            console.error('Error checking CNIC:', err);
+            // On error, allow user to proceed
+            updateFormData({ cnic });
+            navigate('/instructions');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -61,8 +86,13 @@ export default function CnicPage() {
                         </div>
 
                         <div style={{ marginTop: '32px' }}>
-                            <button className="submit-button" id="btn-cnic-submit" onClick={handleSubmit}>
-                                آن لائن فارم پُر کرنے کی ہدایات پڑھیں
+                            <button 
+                                className="submit-button" 
+                                id="btn-cnic-submit" 
+                                onClick={handleSubmit}
+                                disabled={loading}
+                            >
+                                {loading ? 'چیک ہو رہا ہے...' : 'آن لائن فارم پُر کرنے کی ہدایات پڑھیں'}
                             </button>
                         </div>
 

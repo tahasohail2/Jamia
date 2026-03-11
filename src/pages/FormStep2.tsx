@@ -6,7 +6,6 @@ import Card from '../components/Card';
 import FormField from '../components/FormField';
 import { useFormContext } from '../context/FormContext';
 import { PLACEHOLDER_OPTION, gradeOptions } from '../constants';
-import type { SubmittedRecord } from '../types';
 
 /* ─── Shared LTR input style ─────────────────────────── */
 const ltrStyle: React.CSSProperties = {
@@ -17,7 +16,7 @@ const ltrStyle: React.CSSProperties = {
 
 export default function FormStep2() {
     const navigate = useNavigate();
-    const { formData, updateFormData, addRecord, resetFormData } = useFormContext();
+    const { formData, updateFormData, submitForm, resetFormData, loading, error: apiError } = useFormContext();
     const isNew = formData.admissionType === 'نیا داخلہ';
 
     /* ── local state ── */
@@ -43,7 +42,7 @@ export default function FormStep2() {
 
     const [error, setError] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         /* ── Validate required fields ── */
         if (!studentName || !dob || !cnic || !phone || !currentAddress) {
             setError(true);
@@ -67,36 +66,18 @@ export default function FormStep2() {
 
         setError(false);
 
-        /* ── Persist to context ── */
-        const fields = {
-            studentName,
-            fatherName,
-            dob,
-            cnic,
-            phone,
-            whatsapp,
-            fullAddress,
-            currentAddress,
-            ...(isNew
-                ? { requiredGrade, previousEducation }
-                : { registrationNo, lastYearGrade, nextYearGrade, examPart1Marks, examPart2Marks, totalMarks, remarks }),
-        };
-        updateFormData(fields);
+        /* ── Format CNIC: XXXXX-XXXXXXX-X ── */
+        const formattedCnic = cnic.length === 13 
+            ? `${cnic.slice(0, 5)}-${cnic.slice(5, 12)}-${cnic.slice(12)}` 
+            : cnic;
 
-        /* ── Build record ── */
-        const record: SubmittedRecord = {
-            id: Date.now(),
-            submittedAt: new Date().toLocaleString('en-GB', {
-                dateStyle: 'medium',
-                timeStyle: 'short',
-            }),
-            admissionType: formData.admissionType,
-            gender: formData.gender,
-            department: formData.department,
+        /* ── Build complete form data ── */
+        const completeFormData = {
+            ...formData,
             studentName,
             fatherName,
             dob,
-            cnic,
+            cnic: formattedCnic,
             phone,
             whatsapp,
             fullAddress,
@@ -112,9 +93,14 @@ export default function FormStep2() {
             remarks: isNew ? '' : remarks,
         };
 
-        addRecord(record);
-        resetFormData();
-        navigate('/success', { state: { record } });
+        try {
+            await submitForm(completeFormData);
+            // Navigate to success page
+            navigate('/success', { state: { record: completeFormData } });
+        } catch (err) {
+            // Error is already handled in context
+            console.error('Form submission failed:', err);
+        }
     };
 
     /* ═══════════════════════════════════════════════════════
@@ -199,13 +185,21 @@ export default function FormStep2() {
                             />
 
                             <div className="form-footer" style={{ marginTop: '48px' }}>
-                                <button className="submit-button" id="btn-step2-submit" onClick={handleSubmit}>
-                                    فارم جمع کروائیں
+                                <button 
+                                    className="submit-button" 
+                                    id="btn-step2-submit" 
+                                    onClick={handleSubmit}
+                                    disabled={loading}
+                                >
+                                    {loading ? 'جمع ہو رہا ہے...' : 'فارم جمع کروائیں'}
                                 </button>
                             </div>
 
                             {error && (
                                 <div className="form-field-error mt-16">تمام لازمی معلومات پُر کریں</div>
+                            )}
+                            {apiError && (
+                                <div className="form-field-error mt-16">{apiError}</div>
                             )}
                         </Card>
                     </div>
@@ -337,13 +331,21 @@ export default function FormStep2() {
                         />
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>
-                            <button className="submit-button" id="btn-step2-submit" onClick={handleSubmit}>
-                                فارم جمع کروائیں
+                            <button 
+                                className="submit-button" 
+                                id="btn-step2-submit" 
+                                onClick={handleSubmit}
+                                disabled={loading}
+                            >
+                                {loading ? 'جمع ہو رہا ہے...' : 'فارم جمع کروائیں'}
                             </button>
                         </div>
 
                         {error && (
                             <div className="form-field-error mt-16">تمام لازمی معلومات پُر کریں</div>
+                        )}
+                        {apiError && (
+                            <div className="form-field-error mt-16">{apiError}</div>
                         )}
                     </Card>
                 </div>
