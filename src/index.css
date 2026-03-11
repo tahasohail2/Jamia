@@ -61,7 +61,7 @@ img {
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2);
     height: 72px;
     left: 0;
-    padding: 0 32px 0 0;
+    padding: 0 20px;
     position: fixed;
     top: 0;
     width: 100%;
@@ -199,32 +199,37 @@ label .redText {
 
 .form-container input {
     font-size: 20px;
-    height: 48px;
+    height: 52px;
     padding: 1rem .75rem;
     width: 100%;
     border: 1px solid #ced4da;
     border-radius: 4px;
     font-family: MehrNastaliq, sans-serif;
     direction: rtl;
+    line-height: 1.5;
 }
 
 .form-container input::placeholder {
     font-family: Roboto, sans-serif;
     direction: ltr;
     text-align: right;
+    line-height: 1.5;
 }
 
 .form-container select {
     cursor: pointer;
     font-size: 20px;
-    height: 48px;
-    padding: .5rem .75rem;
+    height: 52px;
+    padding: .5rem .75rem .5rem 2.5rem;
     border: 1px solid #ced4da;
     border-radius: 4px;
     font-family: MehrNastaliq, sans-serif;
     direction: rtl;
     background-color: #fff;
     width: 100%;
+    line-height: 1.5;
+    background-position: left 0.75rem center;
+    background-size: 16px 12px;
 }
 
 .required {
@@ -1062,5 +1067,54 @@ input[type=text]:disabled {
 
     .admission-date-card {
         padding: 24px 16px;
+    }
+}
+
+/* Existing Record Page Styles */
+.record-details {
+    padding: 16px 0;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 24px;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #424242;
+    flex: 0 0 40%;
+    font-family: MehrNastaliq;
+}
+
+.detail-value {
+    flex: 0 0 55%;
+    color: #212121;
+    font-family: MehrNastaliq;
+    word-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+    .detail-row {
+        flex-direction: column;
+        font-size: 20px;
+    }
+
+    .detail-label,
+    .detail-value {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .detail-label {
+        margin-bottom: 8px;
     }
 }

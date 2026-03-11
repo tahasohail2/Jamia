@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import type { SubmittedRecord } from '../types';
 
@@ -6,6 +7,10 @@ export default function SuccessPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const record = location.state?.record as SubmittedRecord | undefined;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handlePrint = () => {
         window.print();
