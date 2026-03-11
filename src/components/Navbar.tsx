@@ -5,21 +5,18 @@ export default function Navbar() {
 
     return (
         <div className="navbar" id="main-navbar">
-            <span
-                className="header_title"
-                onClick={() => navigate('/')}
-                role="button"
-                tabIndex={0}
-            >
-                جامعۂ رضویۃ ضیاء العلوم ،پاکستان
-            </span>
             <img
-                src="/logo.png"
+                src="/logoHeader.png"
                 alt="Jamia Razvia Zia ul Uloom Logo"
                 className="logo"
                 onClick={() => navigate('/')}
                 role="button"
                 tabIndex={0}
+            />
+            <img
+                src="http://www.ziaululoom.net/wp-content/uploads/2016/08/Zia-ul-uloom-logo.png"
+                alt="Zia ul Uloom Logo"
+                className="logo-right"
             />
         </div>
     );
