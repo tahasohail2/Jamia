@@ -6,7 +6,7 @@ import {
     useEffect,
     type ReactNode,
 } from 'react';
-import { initialFormData } from '../constants';
+import { initialFormData } from '../types';
 import type { FormData, SubmittedRecord } from '../types';
 import { api, ApiError } from '../services/api';
 
