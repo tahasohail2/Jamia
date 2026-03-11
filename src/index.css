@@ -69,7 +69,6 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 .logo {
@@ -96,7 +95,7 @@ img {
 
 /* Form Content */
 .form-content {
-    margin: 120px auto 0;
+    margin: 240px auto 0;
     max-width: 992px;
     padding: 32px 56px;
     width: 100%;
@@ -104,6 +103,7 @@ img {
 
 /* Card */
 .card {
+    margin-top: 50px;
     background-color: #fff;
     border: 2px solid #058464;
     border-radius: 12px;
@@ -273,7 +273,7 @@ label .redText {
 .form-steps {
     background: #058464;
     height: 80px;
-    margin-top: 72px;
+    margin-top: 140px;
     position: fixed;
     z-index: 100;
     width: 100%;
