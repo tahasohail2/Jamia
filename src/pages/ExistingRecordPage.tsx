@@ -128,138 +128,114 @@ export default function ExistingRecordPage() {
                     </div>
 
                     {/* Form Display */}
-                    <div style={{
-                        background: '#fff',
-                        border: '2px solid #000',
-                        borderRadius: '12px',
-                        padding: '32px',
-                        marginBottom: '24px'
-                    }}>
+                    <div className="existing-record-form">
                         {/* Header Section */}
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            justifyContent: 'space-between',
-                            marginBottom: '20px',
-                            borderBottom: '2px solid #000',
-                            paddingBottom: '20px'
-                        }}>
-                            <div style={{
-                                width: '70px',
-                                height: '70px',
-                                border: '2px solid #000',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                overflow: 'hidden',
-                                flexShrink: 0
-                            }}>
-                                <img src="/1.png" alt="Logo" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+                        <div className="existing-record-header">
+                            <div className="existing-record-logo">
+                                <img src="/1.png" alt="Logo" />
                             </div>
                             
-                            <div style={{ flex: 1, textAlign: 'center', padding: '0 20px' }}>
-                                <p style={{ fontSize: '24px', marginBottom: '8px' }}>بِسْمِ اللّٰہِ الرَّحْمٰنِ الرَّحِیْمِ</p>
-                                <h1 style={{ fontSize: '42px', fontWeight: 900, textDecoration: 'underline' }}>درخواست داخلہ</h1>
+                            <div className="existing-record-title">
+                                <p className="bismillah-text">بِسْمِ اللّٰہِ الرَّحْمٰنِ الرَّحِیْمِ</p>
+                                <h1 className="form-title-text">درخواست داخلہ</h1>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flexShrink: 0 }}>
-                                <div style={{ border: '1px solid #000', padding: '4px 8px', fontSize: '14px' }}>
-                                    <span style={{ fontWeight: 700 }}>رول نمبر : </span>
-                                    <span style={{ fontFamily: 'Roboto, sans-serif', direction: 'ltr' }}>
+                            <div className="existing-record-meta">
+                                <div className="meta-item">
+                                    <span className="meta-label">رول نمبر : </span>
+                                    <span className="meta-value">
                                         {!isNew && record.registrationNo ? record.registrationNo : (record.id ? String(record.id) : '---')}
                                     </span>
                                 </div>
-                                <div style={{ border: '1px solid #000', padding: '4px 8px', fontSize: '14px' }}>
-                                    <span style={{ fontWeight: 700 }}>تاریخ : </span>
-                                    <span style={{ fontFamily: 'Roboto, sans-serif', direction: 'ltr' }}>{getCurrentDate()}</span>
+                                <div className="meta-item">
+                                    <span className="meta-label">تاریخ : </span>
+                                    <span className="meta-value">{getCurrentDate()}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Purple Banner */}
-                        <div style={{
-                            background: '#4a148c',
-                            color: '#fff',
-                            textAlign: 'center',
-                            padding: '10px',
-                            fontSize: '18px',
-                            fontWeight: 700,
-                            margin: '20px 0',
-                            borderRadius: '4px'
-                        }}>
+                        <div className="existing-record-banner">
                             جامعہ رضویہ ضیاء العلوم کے ناظم اعلیٰ محترم کی خدمت میں درد مندانہ گزارش ہے کہ
                         </div>
 
                         {/* Main Heading */}
-                        <div style={{ textAlign: 'center', fontSize: '32px', fontWeight: 900, margin: '20px 0' }}>
+                        <div className="existing-record-greeting">
                             السلام علیکم ورحمۃ اللہ وبرکاتہ
                         </div>
 
                         {/* Form Fields */}
-                        <div style={{ margin: '24px 0', fontSize: '20px', lineHeight: '2.5' }}>
+                        <div className="existing-record-fields">
                             {/* Row 1 */}
-                            <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>نام والدہ :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.studentName}</span>
+                            <div className="field-row field-row-3">
+                                <div className="field-item">
+                                    <span className="field-label">نام والدہ :</span>
+                                    <span className="field-value">{record.studentName}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>والد :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.fatherName || '___________'}</span>
+                                <div className="field-item">
+                                    <span className="field-label">والد :</span>
+                                    <span className="field-value">{record.fatherName || '___________'}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>تاریخ پیدائش :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.dob}</span>
+                                <div className="field-item">
+                                    <span className="field-label">تاریخ پیدائش :</span>
+                                    <span className="field-value ltr">{record.dob}</span>
                                 </div>
                             </div>
 
                             {/* Row 2 */}
-                            <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 2 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>شناختی کارڈ نمبر :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.cnic}</span>
+                            <div className="field-row field-row-2">
+                                <div className="field-item field-item-wide">
+                                    <span className="field-label">شناختی کارڈ نمبر :</span>
+                                    <span className="field-value ltr">{record.cnic}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>موبائل نمبر :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.phone}</span>
+                                <div className="field-item">
+                                    <span className="field-label">موبائل نمبر :</span>
+                                    <span className="field-value ltr">{record.phone}</span>
                                 </div>
                             </div>
 
                             {/* Row 3 - Address */}
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>مکمل پتہ :</span>
-                                <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.fullAddress || record.currentAddress}</span>
+                            <div className="field-row field-row-full">
+                                <div className="field-item field-item-full">
+                                    <span className="field-label">مکمل پتہ :</span>
+                                    <span className="field-value">{record.fullAddress || record.currentAddress}</span>
+                                </div>
                             </div>
 
                             {/* Row 4 - Current Address */}
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>موجودہ پتہ :</span>
-                                <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.currentAddress}</span>
+                            <div className="field-row field-row-full">
+                                <div className="field-item field-item-full">
+                                    <span className="field-label">موجودہ پتہ :</span>
+                                    <span className="field-value">{record.currentAddress}</span>
+                                </div>
                             </div>
 
                             {/* Row 5 - Department & Gender */}
-                            <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>شعبہ (بنین/بنات) :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.gender}</span>
+                            <div className="field-row field-row-2">
+                                <div className="field-item">
+                                    <span className="field-label">شعبہ (بنین/بنات) :</span>
+                                    <span className="field-value">{record.gender}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>درس نظامی :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.department}</span>
+                                <div className="field-item">
+                                    <span className="field-label">درس نظامی :</span>
+                                    <span className="field-value">{record.department}</span>
                                 </div>
                             </div>
 
                             {/* Conditional Fields - New Admission */}
                             {isNew && (
                                 <>
-                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                        <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>تعلیمی قابلیت (موجودہ) :</span>
-                                        <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.requiredGrade}</span>
+                                    <div className="field-row field-row-full">
+                                        <div className="field-item field-item-full">
+                                            <span className="field-label">تعلیمی قابلیت (موجودہ) :</span>
+                                            <span className="field-value">{record.requiredGrade}</span>
+                                        </div>
                                     </div>
-                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                        <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>سابقہ ادارہ/سکول کا نام :</span>
-                                        <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.previousEducation || '___________'}</span>
+                                    <div className="field-row field-row-full">
+                                        <div className="field-item field-item-full">
+                                            <span className="field-label">سابقہ ادارہ/سکول کا نام :</span>
+                                            <span className="field-value">{record.previousEducation || '___________'}</span>
+                                        </div>
                                     </div>
                                 </>
                             )}
@@ -267,66 +243,77 @@ export default function ExistingRecordPage() {
                             {/* Conditional Fields - Existing Student */}
                             {!isNew && (
                                 <>
-                                    <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                            <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>رجسٹریشن نمبر :</span>
-                                            <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.registrationNo}</span>
+                                    <div className="field-row field-row-2">
+                                        <div className="field-item">
+                                            <span className="field-label">رجسٹریشن نمبر :</span>
+                                            <span className="field-value ltr">{record.registrationNo}</span>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                            <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>پچھلے سال کا درجہ :</span>
-                                            <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.lastYearGrade}</span>
+                                        <div className="field-item">
+                                            <span className="field-label">پچھلے سال کا درجہ :</span>
+                                            <span className="field-value">{record.lastYearGrade}</span>
                                         </div>
                                     </div>
-                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                                        <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>آئندہ درجہ (بعد از ترقی) :</span>
-                                        <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px' }}>{record.nextYearGrade}</span>
+                                    <div className="field-row field-row-full">
+                                        <div className="field-item field-item-full">
+                                            <span className="field-label">آئندہ درجہ (بعد از ترقی) :</span>
+                                            <span className="field-value">{record.nextYearGrade}</span>
+                                        </div>
                                     </div>
                                 </>
                             )}
 
                             {/* Guardian Contact */}
-                            <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>موبائل نمبر :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.phone}</span>
+                            <div className="field-row field-row-2">
+                                <div className="field-item">
+                                    <span className="field-label">موبائل نمبر :</span>
+                                    <span className="field-value ltr">{record.phone}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>وٹس ایپ نمبر :</span>
-                                    <span style={{ borderBottom: '1px solid #000', flex: 1, padding: '0 8px', fontFamily: 'Roboto, sans-serif', direction: 'ltr', textAlign: 'left' }}>{record.whatsapp || record.phone}</span>
+                                <div className="field-item">
+                                    <span className="field-label">وٹس ایپ نمبر :</span>
+                                    <span className="field-value ltr">{record.whatsapp || record.phone}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Footer with Buttons */}
-                        <div style={{ 
-                            marginTop: '32px', 
-                            borderTop: '2px solid #000', 
-                            paddingTop: '20px',
-                            display: 'flex',
-                            gap: '16px',
-                            justifyContent: 'center',
-                            flexWrap: 'wrap'
-                        }}>
+                        <div className="existing-record-footer">
                             <button 
-                                className="submit-button" 
+                                className="submit-button btn-print" 
                                 onClick={handlePrint}
-                                style={{ fontSize: '22px', padding: '12px 40px', background: '#2196f3', borderColor: '#2196f3' }}
                             >
                                 فارم پرنٹ کریں
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                        <rect x="6" y="14" width="12" height="8"></rect>
+                                    </svg>
+                                </span>
                             </button>
                             <button 
-                                className="submit-button" 
+                                className="submit-button btn-download" 
                                 onClick={handleDownload}
-                                style={{ fontSize: '22px', padding: '12px 40px', background: '#ff9800', borderColor: '#ff9800' }}
                             >
                                 فارم ڈاؤن لوڈ کریں
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                </span>
                             </button>
                             <button 
-                                className="submit-button" 
+                                className="submit-button btn-back" 
                                 onClick={() => navigate('/')}
-                                style={{ fontSize: '22px', padding: '12px 40px' }}
                             >
-                                واپس  
+                                واپس
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                                        <polyline points="12 19 5 12 12 5"></polyline>
+                                    </svg>
+                                </span>
                             </button>
                         </div>
                     </div>

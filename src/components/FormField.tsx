@@ -14,6 +14,7 @@ interface FormFieldProps {
     rows?: number;
     inputStyle?: React.CSSProperties;
     numericOnly?: boolean;
+    alphabeticOnly?: boolean;
     children?: ReactNode;
     error?: string;
 }
@@ -32,6 +33,7 @@ export default function FormField({
     rows = 3,
     inputStyle = {},
     numericOnly = false,
+    alphabeticOnly = false,
     error,
 }: FormFieldProps) {
     const handleInputChange = (
@@ -39,10 +41,17 @@ export default function FormField({
     ) => {
         let val = e.target.value;
         if (numericOnly) {
+            // Only allow numbers
             val = val.replace(/[^0-9]/g, '');
+        } else if (alphabeticOnly) {
+            // Only allow letters, spaces, and Urdu characters
+            // This regex allows: English letters, spaces, Urdu/Arabic characters
+            val = val.replace(/[0-9]/g, '');
         }
         onChange(val);
     };
+
+    const inputClassName = error ? 'error' : '';
 
     return (
         <div className="form-container">
@@ -58,7 +67,13 @@ export default function FormField({
             )}
 
             {type === 'select' ? (
-                <select id={id} value={value} onChange={handleInputChange} style={inputStyle}>
+                <select 
+                    id={id} 
+                    value={value} 
+                    onChange={handleInputChange} 
+                    style={inputStyle}
+                    className={inputClassName}
+                >
                     {options.map((opt) => (
                         <option key={opt} value={opt}>
                             {opt}
@@ -71,12 +86,12 @@ export default function FormField({
                     value={value}
                     onChange={handleInputChange}
                     rows={rows}
+                    className={inputClassName}
                     style={{
                         width: '100%',
                         resize: 'vertical',
                         fontSize: '20px',
                         padding: '12px',
-                        border: '1px solid #ccc',
                         borderRadius: '8px',
                         fontFamily: 'MehrNastaliq',
                         ...inputStyle,
@@ -91,6 +106,7 @@ export default function FormField({
                     placeholder={placeholder}
                     maxLength={maxLength}
                     style={inputStyle}
+                    className={inputClassName}
                 />
             )}
 
