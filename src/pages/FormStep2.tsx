@@ -5,6 +5,7 @@ import Stepper from '../components/Stepper';
 import Card from '../components/Card';
 import FormField from '../components/FormField';
 import { useFormContext } from '../context/FormContext';
+import { useToast } from '../components/ToastContainer';
 import { PLACEHOLDER_OPTION, gradeOptions } from '../constants';
 
 /* ─── Shared LTR input style ─────────────────────────── */
@@ -17,6 +18,7 @@ const ltrStyle: React.CSSProperties = {
 export default function FormStep2() {
     const navigate = useNavigate();
     const { formData, submitForm, loading, error: apiError } = useFormContext();
+    const { showToast } = useToast();
     const isNew = formData.admissionType === 'نیا داخلہ';
 
     /* ── local state ── */
@@ -49,34 +51,54 @@ export default function FormStep2() {
         const errors: Record<string, string> = {};
         
         /* ── Validate required fields ── */
-        if (!studentName) errors.studentName = 'نام طالب/طالبہ درج کریں';
-        if (!dob) errors.dob = 'تاریخ پیدائش منتخب کریں';
+        if (!studentName) {
+            errors.studentName = 'نام طالب/طالبہ درج کریں';
+            showToast('نام طالب/طالبہ درج کریں', 'error');
+        }
+        if (!dob) {
+            errors.dob = 'تاریخ پیدائش منتخب کریں';
+            showToast('تاریخ پیدائش منتخب کریں', 'error');
+        }
         if (!cnic) {
             errors.cnic = 'شناختی کارڈ/ب فارم نمبر درج کریں';
+            showToast('شناختی کارڈ/ب فارم نمبر درج کریں', 'error');
         } else if (cnic.length !== 13) {
             errors.cnic = 'شناختی کارڈ نمبر 13 ہندسوں پر مشتمل ہونا چاہیے';
+            showToast('شناختی کارڈ نمبر 13 ہندسوں پر مشتمل ہونا چاہیے', 'error');
         }
         if (!phone) {
             errors.phone = 'فون نمبر درج کریں';
+            showToast('فون نمبر درج کریں', 'error');
         } else if (phone.length !== 11) {
             errors.phone = 'فون نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
+            showToast('فون نمبر 11 ہندسوں پر مشتمل ہونا چاہیے', 'error');
         }
         if (whatsapp && whatsapp.length !== 11) {
             errors.whatsapp = 'وٹس ایپ نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
+            showToast('وٹس ایپ نمبر 11 ہندسوں پر مشتمل ہونا چاہیے', 'warning');
         }
-        if (!currentAddress) errors.currentAddress = 'موجودہ پتا درج کریں';
+        if (!currentAddress) {
+            errors.currentAddress = 'موجودہ پتا درج کریں';
+            showToast('موجودہ پتا درج کریں', 'error');
+        }
 
         if (isNew) {
             if (requiredGrade === PLACEHOLDER_OPTION) {
                 errors.requiredGrade = 'مطلوبہ درجہ منتخب کریں';
+                showToast('مطلوبہ درجہ منتخب کریں', 'error');
             }
         } else {
-            if (!registrationNo) errors.registrationNo = 'داخلہ نمبر درج کریں';
+            if (!registrationNo) {
+                errors.registrationNo = 'داخلہ نمبر درج کریں';
+                showToast('داخلہ نمبر درج کریں', 'error');
+            }
             if (lastYearGrade === PLACEHOLDER_OPTION) {
                 errors.lastYearGrade = 'پچھلے سال کا درجہ منتخب کریں';
+                showToast('پچھلے سال کا درجہ منتخب کریں', 'error');
             }
             if (nextYearGrade === PLACEHOLDER_OPTION) {
                 errors.nextYearGrade = 'آئندہ درجہ منتخب کریں';
+                showToast('آئندہ درجہ منتخب کریں', 'error');
             }
         }
 
@@ -117,11 +139,12 @@ export default function FormStep2() {
         };
 
         try {
+            showToast('فارم جمع ہو رہا ہے...', 'info');
             await submitForm(completeFormData);
-            // Navigate to success page
+            showToast('فارم کامیابی سے جمع ہو گیا', 'success');
             navigate('/success', { state: { record: completeFormData } });
         } catch (err) {
-            // Error is already handled in context
+            showToast('فارم جمع کرنے میں خرابی', 'error');
             console.error('Form submission failed:', err);
         }
     };
@@ -151,13 +174,15 @@ export default function FormStep2() {
                                 id="student-name" 
                                 value={studentName} 
                                 onChange={setStudentName} 
+                                alphabeticOnly
                                 error={fieldErrors.studentName}
                             />
                             <FormField 
                                 label="والد کا نام" 
                                 id="father-name" 
                                 value={fatherName} 
-                                onChange={setFatherName} 
+                                onChange={setFatherName}
+                                alphabeticOnly
                             />
                             <FormField 
                                 label="تاریخ پیدائش" 
@@ -254,6 +279,13 @@ export default function FormStep2() {
                                     disabled={loading}
                                 >
                                     {loading ? 'جمع ہو رہا ہے...' : 'فارم جمع کروائیں'}
+                                    {!loading && (
+                                        <span className="button-icon-circle">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                    )}
                                 </button>
                             </div>
 
@@ -303,14 +335,16 @@ export default function FormStep2() {
                             required 
                             id="student-name" 
                             value={studentName} 
-                            onChange={setStudentName} 
+                            onChange={setStudentName}
+                            alphabeticOnly
                             error={fieldErrors.studentName}
                         />
                         <FormField 
                             label="والد کا نام" 
                             id="father-name" 
                             value={fatherName} 
-                            onChange={setFatherName} 
+                            onChange={setFatherName}
+                            alphabeticOnly
                         />
                         <FormField 
                             label="تاریخ پیدائش" 
@@ -445,6 +479,13 @@ export default function FormStep2() {
                                 disabled={loading}
                             >
                                 {loading ? 'جمع ہو رہا ہے...' : 'فارم جمع کروائیں'}
+                                {!loading && (
+                                    <span className="button-icon-circle">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                )}
                             </button>
                         </div>
 

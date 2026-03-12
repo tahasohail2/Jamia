@@ -32,6 +32,12 @@ export default function RecordDetailPage() {
                             <div style={{ marginTop: '24px', textAlign: 'center' }}>
                                 <button className="submit-button" onClick={() => navigate('/records')}>
                                     واپس فارمز کی فہرست
+                                    <span className="button-icon-circle">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                                            <polyline points="12 19 5 12 12 5"></polyline>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </Card>
@@ -111,9 +117,21 @@ export default function RecordDetailPage() {
                         <div className="success-buttons">
                             <button className="submit-button" onClick={() => navigate('/records')}>
                                 واپس فارمز کی فہرست
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                                        <polyline points="12 19 5 12 12 5"></polyline>
+                                    </svg>
+                                </span>
                             </button>
                             <button className="submit-button" onClick={() => navigate('/')}>
                                 واپس ہوم پیج
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                </span>
                             </button>
                         </div>
                     </Card>

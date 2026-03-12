@@ -5,6 +5,7 @@ import Stepper from '../components/Stepper';
 import Card from '../components/Card';
 import FormField from '../components/FormField';
 import { useFormContext } from '../context/FormContext';
+import { useToast } from '../components/ToastContainer';
 import {
     PLACEHOLDER_OPTION,
     admissionTypes,
@@ -15,23 +16,34 @@ import {
 export default function FormStep1() {
     const navigate = useNavigate();
     const { updateFormData } = useFormContext();
+    const { showToast } = useToast();
     const [admissionType, setAdmissionType] = useState(PLACEHOLDER_OPTION);
     const [gender, setGender] = useState(PLACEHOLDER_OPTION);
     const [department, setDepartment] = useState(PLACEHOLDER_OPTION);
-    const [error, setError] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
     const handleSubmit = () => {
-        if (
-            admissionType === PLACEHOLDER_OPTION ||
-            gender === PLACEHOLDER_OPTION ||
-            department === PLACEHOLDER_OPTION
-        ) {
-            setError(true);
+        const errors: Record<string, string> = {};
+
+        if (admissionType === PLACEHOLDER_OPTION) {
+            errors.admissionType = 'داخلہ کی نوعیت منتخب کریں';
+        }
+        if (gender === PLACEHOLDER_OPTION) {
+            errors.gender = 'جنس منتخب کریں';
+        }
+        if (department === PLACEHOLDER_OPTION) {
+            errors.department = 'شعبہ منتخب کریں';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
+            showToast('تمام لازمی معلومات پُر کریں', 'error');
             return;
         }
 
-        setError(false);
+        setFieldErrors({});
         updateFormData({ admissionType, gender, department });
+        showToast('پہلا مرحلہ مکمل ہوا', 'success');
         navigate('/form/step2');
     };
 
@@ -39,6 +51,9 @@ export default function FormStep1() {
         <>
             <Navbar />
             <Stepper activeStep={1} />
+            <div className="form-progress">
+                <div className="form-progress-bar" style={{ width: '50%' }} />
+            </div>
             <div className="App">
                 <div className="form-content" style={{ marginTop: '170px' }}>
                     <Card headerLeft="پہلا مرحلہ" headerRight="درخواست فارم">
@@ -55,6 +70,7 @@ export default function FormStep1() {
                             value={admissionType}
                             onChange={setAdmissionType}
                             options={admissionTypes}
+                            error={fieldErrors.admissionType}
                         />
 
                         <FormField
@@ -65,6 +81,7 @@ export default function FormStep1() {
                             value={gender}
                             onChange={setGender}
                             options={genders}
+                            error={fieldErrors.gender}
                         />
 
                         <FormField
@@ -75,19 +92,20 @@ export default function FormStep1() {
                             value={department}
                             onChange={setDepartment}
                             options={departments}
+                            error={fieldErrors.department}
                         />
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>
                             <button className="submit-button" id="btn-step1-submit" onClick={handleSubmit}>
                                 اگلا مرحلہ
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </span>
                             </button>
                         </div>
-
-                        {error && (
-                            <div className="form-field-error mt-16">
-                                تمام لازمی معلومات پُر کریں
-                            </div>
-                        )}
                     </Card>
                 </div>
             </div>
