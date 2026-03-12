@@ -14,7 +14,7 @@ export default function Navbar() {
                 tabIndex={0}
             />
             <img
-                src="http://www.ziaululoom.net/wp-content/uploads/2016/08/Zia-ul-uloom-logo.png"
+                src="/1.png"
                 alt="Zia ul Uloom Logo"
                 className="logo-right"
             />
