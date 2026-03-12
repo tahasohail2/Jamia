@@ -17,6 +17,7 @@ export default function RecordDetailPage() {
 
     const recordId = Number(id);
     const rec = records.find(r => r.id === recordId);
+    const index = records.findIndex(r => r.id === recordId);
 
     if (!rec) {
         return (

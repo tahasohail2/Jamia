@@ -17,6 +17,12 @@ export default function SuccessPage() {
         window.print();
     };
 
+    const handleOpenSchedule = () => {
+        // Open the PDF in a new tab with the correct path
+        const pdfUrl = `${window.location.origin}/nizam-ul-amal-3-02-2026.pdf`;
+        window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+    };
+
     return (
         <>
             <Navbar />
@@ -34,7 +40,7 @@ export default function SuccessPage() {
                             <div className="success-logo-wrapper">
                                 <img
                                     src="/1.png"
-                                    alt="Jamia Razvia Zia ul Uloom Logo"
+                                    alt="Jamia Nizamia Rizvia Logo"
                                     className="success-logo"
                                 />
                             </div>
@@ -253,51 +259,22 @@ export default function SuccessPage() {
                                     <span className="doc-number">6</span>
                                     . داخلہ فارم اور ہدایات و ضوابط والے دستخط شدہ صفحات
                                 </p>
-                                <p className="doc-item red" style={{ fontSize: '32px' }}>
-                                    <span className="doc-number">7</span>
-                                    . بوقت داخلہ فیس <span style={{ fontFamily: 'Roboto, sans-serif' }}>1500</span> روپے
-                                </p>
+                               
                             </div>
 
-                            <p className="description textCenter" style={{ fontSize: '22px', marginTop: '8px', color: '#e91e90' }}>
-                                (دیگر کوئی سالانہ یا ماہانہ فیس نہیں ہے) ۔
-                            </p>
-
+                           
                             <p className="greenDescription textCenter" style={{ fontSize: '28px', marginTop: '24px', textDecoration: 'underline' }}>
-                                ان تمام چیزوں کے ہمراہ داخلہ ٹیسٹ و انٹرویو کے لیے
+                                ان تمام چیزوں کے ہمراہ داخلہ ٹیسٹ و انٹرویو کے لیے حسب شیڈول جامعہ کے دفتر میں تشریف لائیں
                             </p>
                         </div>
-                    </div>
+                    
 
                     {/* ═══════ SECTION 3: Location & Date ═══════ */}
-                    <div className="card" style={{ marginTop: '24px' }}>
-                        <div className="card-header" style={{ justifyContent: 'center' }}>
-                            <span className="card-header-label" style={{ textAlign: 'center', fontSize: '24px' }}>
-                                ان تمام چیزوں کے ہمراہ داخلہ ٹیسٹ و انٹرویو کے لیے
-                            </span>
-                        </div>
+                    
+                        
                         <div className="card-body" style={{ padding: '32px' }}>
                             {/* Date & Time Card */}
-                            <div className="admission-date-card">
-                                <p className="date-line red" style={{ fontSize: '28px' }}>
-                                    11 شوال المکرم 1447ھ
-                                </p>
-                                <p className="date-line red" style={{ fontSize: '24px' }}>
-                                    (مؤرخہ <span style={{ fontFamily: 'Roboto, sans-serif' }}>31</span> مارچ <span style={{ fontFamily: 'Roboto, sans-serif' }}>2026</span>ء بروز منگل)
-                                </p>
-                                <p className="date-line blue" style={{ fontSize: '28px' }}>
-                                    بجے <span style={{ fontFamily: 'Roboto, sans-serif' }}>8:00</span> بجے
-                                </p>
-                                <p className="date-line green" style={{ fontSize: '28px', fontWeight: 900 }}>
-                                    جامعۂ رضویۃ ضیاء العلوم
-                                </p>
-                                <p className="date-line green" style={{ fontSize: '26px' }}>
-                                    ناصر روڈ، راولپنڈی
-                                </p>
-                                <p className="date-line red" style={{ fontSize: '30px', fontWeight: 900 }}>
-                                    تشریف لائیں
-                                </p>
-                            </div>
+                            
 
                             {/* Google Map Embed */}
                             <div className="map-container">
@@ -326,9 +303,9 @@ export default function SuccessPage() {
 
                             {/* Bottom Print Button */}
                             <div style={{ textAlign: 'center', marginTop: '32px' }}>
-                                <button className="submit-button" id="btn-print-instructions" onClick={handlePrint}>
-                                    ہدایات اور داخلہ فارم پرنٹ کریں
-                                </button>
+                                <button className="submit-button" id="btn-print-instructions" onClick={handleOpenSchedule}>
+                                        شیڈول  
+                              </button>
                             </div>
                         </div>
                     </div>

@@ -25,16 +25,35 @@ export default function HomePage() {
                             مکرمی جناب مہتمم صاحب ! السلام علیکم ورحمۃ اللہ
                         </p>
 
+                        <p className="description" style={{ marginTop: '24px' }}>
+                            <span className="red_text" style={{ fontSize: '28px' }}>ہدایات و ضوابط</span>
+                            {' '}
+                            <a 
+                                href="/TermsAndConditions.jpeg" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                style={{ 
+                                    color: '#2196f3', 
+                                    textDecoration: 'underline',
+                                    fontSize: '22px',
+                                    cursor: 'pointer',
+                                    fontFamily: 'MehrNastaliq'
+                                }}
+                            >
+                                (دیکھنے کے لیے یہاں کلک کریں)
+                            </a>
+                        </p>
+
                         <p className="description">
                             .میں نے جامعہ کے قواعد وضوابط اورہدایات اچھی طرح پڑھ اور سمجھ لی ہیں
                         </p>
 
                         <p className="description">
-                            .میں ان پر سختی سے عمل پیرا ہونے کا عہد کرتا/کرتی ہوں
+                            .میں ان پر سچّی سے عمل پیرا ہونے کا عہد کرتا/کرتی ہوں
                         </p>
 
                         <p className="pinkText">
-    خلاف ورزی کی صورت میں آپ کو تادیبی کارروائی کا اختیار ہوگا ۔
+    خلاف ورزی کی صورت میں آپ کو سخت تادیبی کارروائی کا اختیار ہوگا ۔
                         </p>
 
                         <hr className="divider" />
