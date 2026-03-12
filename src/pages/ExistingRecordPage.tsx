@@ -155,7 +155,7 @@ export default function ExistingRecordPage() {
                                 overflow: 'hidden',
                                 flexShrink: 0
                             }}>
-                                <img src="/logo.png" alt="Logo" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+                                <img src="/1.png" alt="Logo" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
                             </div>
                             
                             <div style={{ flex: 1, textAlign: 'center', padding: '0 20px' }}>
@@ -188,7 +188,7 @@ export default function ExistingRecordPage() {
                             margin: '20px 0',
                             borderRadius: '4px'
                         }}>
-                            جامعۂ نظامیہ رضویہ کے ناظم اعلیٰ محترم کی خدمت میں درد مندانہ گزارش ہے کہ
+                            جامعہ رضویہ ضیاء العلوم کے ناظم اعلیٰ محترم کی خدمت میں درد مندانہ گزارش ہے کہ
                         </div>
 
                         {/* Main Heading */}

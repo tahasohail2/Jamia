@@ -33,8 +33,8 @@ export default function SuccessPage() {
                             {/* Logo */}
                             <div className="success-logo-wrapper">
                                 <img
-                                    src="/logo.png"
-                                    alt="Jamia Nizamia Rizvia Logo"
+                                    src="/1.png"
+                                    alt="Jamia Razvia Zia ul Uloom Logo"
                                     className="success-logo"
                                 />
                             </div>
@@ -46,7 +46,7 @@ export default function SuccessPage() {
                             <p className="description textCenter" style={{ fontSize: '28px', marginTop: '16px' }}>
                                 آپ کا{' '}
                                 <span className="red_text" style={{ fontSize: '28px' }}>آن لائن فارم</span>{' '}
-                                جامعہ نظامیہ رضویہ کو وصول ہوگیا ہے ۔
+                                جامعہ رضویہ ضیاء العلوم کو وصول ہوگیا ہے ۔
                             </p>
 
                             {/* Print Button */}

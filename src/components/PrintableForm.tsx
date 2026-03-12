@@ -26,13 +26,13 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                     <div className="cover-header">
                         <h1 className="cover-title">ہدایات و ضوابط</h1>
                         <p className="cover-subtitle">
-                            جامعۂ نظامیہ رضویہ " (اہلِ سنت و جماعت) " کے زیر اہتمام
+                            جامعہ رضویہ ضیاء العلوم " (اہلِ سنت و جماعت) " کے زیر اہتمام
                         </p>
                     </div>
 
                     <div className="cover-content">
                         <p className="cover-text">
-                            جامعۂ نظامیہ رضویہ میں داخلہ کے لیے درج ذیل ہدایات و ضوابط کو اچھی طرح پڑھ لیجیے اور ان پر عمل کیجیے۔
+                            جامعہ رضویہ ضیاء العلوم میں داخلہ کے لیے درج ذیل ہدایات و ضوابط کو اچھی طرح پڑھ لیجیے اور ان پر عمل کیجیے۔
                         </p>
 
                         <div className="instructions-list">
@@ -97,7 +97,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
 
                             <div className="authority-section">
                                 <p className="authority-title">ناظر اعلیٰ</p>
-                                <p className="authority-name">جامعۂ نظامیہ رضویہ اہلِ سنت و جماعت</p>
+                                <p className="authority-name">جامعہ رضویہ ضیاء العلوم اہلِ سنت و جماعت</p>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                     {/* Header Section */}
                     <div className="form-header-section">
                         <div className="logo-container">
-                            <img src="/logo.png" alt="Logo" className="form-logo" />
+                            <img src="/1.png" alt="Logo" className="form-logo" />
                         </div>
                         
                         <div className="form-title-section">
@@ -134,7 +134,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
 
                     {/* Purple Banner */}
                     <div className="form-banner">
-                        جامعۂ نظامیہ رضویہ کے ناظم اعلیٰ محترم کی خدمت میں درد مندانہ گزارش ہے کہ
+                        جامعہ رضویہ ضیاء العلوم کے ناظم اعلیٰ محترم کی خدمت میں درد مندانہ گزارش ہے کہ
                     </div>
 
                     {/* Main Heading */}
@@ -145,7 +145,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                     {/* Introduction Paragraph */}
                     <div className="form-intro">
                         <p>
-                            موصوف کو سلام عرض کرنے کے بعد بندہ عاجز و ناچیز بصد ادب و احترام عرض کرتا/کرتی ہوں کہ میں اپنے والد/سرپرست کی اجازت سے جامعۂ نظامیہ رضویہ میں داخلہ لینا چاہتا/چاہتی ہوں۔ میں نے جامعہ کے قواعد و ضوابط کو اچھی طرح پڑھ لیا ہے اور ان پر عمل کروں گا/گی۔ براہ کرم مجھے داخلہ دینے کی زحمت فرمائیں۔ میری تفصیلات درج ذیل ہیں:
+                            موصوف کو سلام عرض کرنے کے بعد بندہ عاجز و ناچیز بصد ادب و احترام عرض کرتا/کرتی ہوں کہ میں اپنے والد/سرپرست کی اجازت سے جامعہ رضویہ ضیاء العلوم میں داخلہ لینا چاہتا/چاہتی ہوں۔ میں نے جامعہ کے قواعد و ضوابط کو اچھی طرح پڑھ لیا ہے اور ان پر عمل کروں گا/گی۔ براہ کرم مجھے داخلہ دینے کی زحمت فرمائیں۔ میری تفصیلات درج ذیل ہیں:
                         </p>
                     </div>
 
@@ -283,7 +283,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                     <div className="form-signatures">
                         <div className="signature-group">
                             <div className="stamp-circle">
-                                <img src="/logo.png" alt="Stamp" className="stamp-img" />
+                                <img src="/1.png" alt="Stamp" className="stamp-img" />
                             </div>
                             <div className="signature-line-bottom">_______________</div>
                             <p className="signature-label-bottom">دستخط سرپرست/والد کے</p>
@@ -291,7 +291,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
 
                         <div className="signature-group">
                             <div className="stamp-circle">
-                                <img src="/logo.png" alt="Stamp" className="stamp-img" />
+                                <img src="/1.png" alt="Stamp" className="stamp-img" />
                             </div>
                             <div className="signature-line-bottom">_______________</div>
                             <p className="signature-label-bottom">دستخط امیدوار کے</p>

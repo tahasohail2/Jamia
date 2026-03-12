@@ -163,14 +163,14 @@ img {
 .description {
     color: #000;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.6;
 }
 
 .greenDescription {
     color: #058464;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.6;
 }
 
@@ -583,6 +583,37 @@ label .redText {
 
     .header_title {
         font-size: 20px;
+    }
+
+    /* Mobile navbar adjustments */
+    .navbar {
+        height: 180px;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 10px 20px;
+    }
+
+    .logo-right {
+        position: relative;
+        right: auto;
+        height: 80px;
+        padding: 5px;
+        margin-bottom: 5px;
+        order: -1;
+    }
+
+    .logo {
+        height: 80px;
+        margin-top: 5px;
+    }
+
+    /* Adjust content margin for taller navbar */
+    .form-content {
+        margin-top: 200px !important;
+    }
+
+    .form-steps {
+        margin-top: 180px;
     }
 }
 
