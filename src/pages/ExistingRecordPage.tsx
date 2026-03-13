@@ -169,7 +169,7 @@ export default function ExistingRecordPage() {
                             {/* Row 1 */}
                             <div className="field-row field-row-3">
                                 <div className="field-item">
-                                    <span className="field-label">نام والدہ :</span>
+                                    <span className="field-label">نام :</span>
                                     <span className="field-value">{record.studentName}</span>
                                 </div>
                                 <div className="field-item">
@@ -209,6 +209,16 @@ export default function ExistingRecordPage() {
                                     <span className="field-value">{record.currentAddress}</span>
                                 </div>
                             </div>
+
+                            {/* Row 4.5 - Education Type (only for new admissions) */}
+                            {isNew && (
+                                <div className="field-row field-row-full">
+                                    <div className="field-item field-item-full">
+                                        <span className="field-label">دینی / عصری تعلیم :</span>
+                                        <span className="field-value">{record.educationType || '___________'}</span>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Row 5 - Department & Gender */}
                             <div className="field-row field-row-2">

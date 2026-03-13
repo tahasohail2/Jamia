@@ -49,7 +49,7 @@ export default function HomePage() {
                         </p>
 
                         <p className="description">
-                            .میں ان پر سچّی سے عمل پیرا ہونے کا عہد کرتا/کرتی ہوں
+                            .میں ان پر سختی سے عمل پیرا ہونے کا عہد کرتا/کرتی ہوں
                         </p>
 
                         <p className="pinkText">
@@ -63,7 +63,7 @@ export default function HomePage() {
                         </p>
 
                         <p className="description textCenter" style={{ fontSize: '26px' }}>
-    ان کی روشنی میں مجھے اپنے زیر سایہ تعلیم حاصل کرنے کے داخلہ عطا فرمایا جائے
+    ان کی روشنی میں مجھے اپنے زیر سایہ تعلیم حاصل کرنے کے لیے داخلہ عطا فرمایا جائے
                         </p>
 
                         <hr className="divider" />

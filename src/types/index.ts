@@ -10,6 +10,7 @@ export interface FormData {
     whatsapp: string;
     fullAddress: string;
     currentAddress: string;
+    educationType: string;
     requiredGrade: string;
     previousEducation: string;
     registrationNo: string;
@@ -38,6 +39,7 @@ export const initialFormData: FormData = {
     whatsapp: '',
     fullAddress: '',
     currentAddress: '',
+    educationType: '',
     requiredGrade: '',
     previousEducation: '',
     registrationNo: '',

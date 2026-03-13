@@ -68,7 +68,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                         {/* Row 1 */}
                         <div className="form-row">
                             <div className="form-field-inline">
-                                <span className="field-label">نام والدہ :</span>
+                                <span className="field-label">نام :</span>
                                 <span className="field-value">{record.studentName}</span>
                             </div>
                             <div className="form-field-inline">
@@ -108,6 +108,16 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                                 <span className="field-value">{record.currentAddress}</span>
                             </div>
                         </div>
+
+                        {/* Row 4.5 - Education Type (only for new admissions) */}
+                        {isNew && (
+                            <div className="form-row">
+                                <div className="form-field-inline">
+                                    <span className="field-label">دینی / عصری تعلیم :</span>
+                                    <span className="field-value">{record.educationType || '___________'}</span>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Row 5 - Department & Gender */}
                         <div className="form-row">
