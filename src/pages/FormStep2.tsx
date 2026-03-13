@@ -46,20 +46,44 @@ export default function FormStep2() {
     const [error, setError] = useState(false);
     
     /* ── Document uploads (optional) ── */
-    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+    const [certificateFiles, setCertificateFiles] = useState<File[]>([]);
+    const [cnicFiles, setCnicFiles] = useState<File[]>([]);
+    const [additionalFiles, setAdditionalFiles] = useState<File[]>([]);
     
     /* ── Field-level validation errors ── */
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCertificateUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
-            setUploadedFiles(prev => [...prev, ...filesArray]);
+            setCertificateFiles(prev => [...prev, ...filesArray]);
         }
     };
 
-    const removeFile = (index: number) => {
-        setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    const handleCnicUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const filesArray = Array.from(e.target.files);
+            setCnicFiles(prev => [...prev, ...filesArray]);
+        }
+    };
+
+    const handleAdditionalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const filesArray = Array.from(e.target.files);
+            setAdditionalFiles(prev => [...prev, ...filesArray]);
+        }
+    };
+
+    const removeCertificateFile = (index: number) => {
+        setCertificateFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const removeCnicFile = (index: number) => {
+        setCnicFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const removeAdditionalFile = (index: number) => {
+        setAdditionalFiles(prev => prev.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async () => {
@@ -303,65 +327,189 @@ export default function FormStep2() {
 
                             {/* Document Upload Section */}
                             <div style={{ marginTop: '32px' }}>
-                                <label className="form-label" style={{ display: 'block', marginBottom: '12px', fontSize: '22px' }}>
+                                <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#058464' }}>
                                     دستاویزات اپ لوڈ کریں (اختیاری)
-                                    <span style={{ fontSize: '18px', color: '#666', display: 'block', marginTop: '4px' }}>
-                                        (شناختی کارڈ، ب فارم، سرٹیفکیٹ، وغیرہ)
-                                    </span>
-                                </label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*,.pdf"
-                                    onChange={handleFileUpload}
-                                    style={{
-                                        display: 'block',
-                                        width: '100%',
-                                        padding: '12px',
-                                        border: '2px dashed #058464',
-                                        borderRadius: '12px',
-                                        fontSize: '18px',
-                                        cursor: 'pointer',
-                                        backgroundColor: '#f9f9f9'
-                                    }}
-                                />
-                                {uploadedFiles.length > 0 && (
-                                    <div style={{ marginTop: '16px' }}>
-                                        <p style={{ fontSize: '18px', marginBottom: '8px', color: '#058464' }}>
-                                            منتخب شدہ فائلیں: {uploadedFiles.length}
-                                        </p>
-                                        {uploadedFiles.map((file, index) => (
-                                            <div key={index} style={{ 
-                                                display: 'flex', 
-                                                alignItems: 'center', 
-                                                justifyContent: 'space-between',
-                                                padding: '8px 12px',
-                                                backgroundColor: '#f0f0f0',
-                                                borderRadius: '8px',
-                                                marginBottom: '8px'
-                                            }}>
-                                                <span style={{ fontSize: '16px', fontFamily: 'Roboto, sans-serif' }}>
-                                                    {file.name}
-                                                </span>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeFile(index)}
-                                                    style={{
-                                                        background: '#dc3545',
-                                                        color: 'white',
-                                                        border: 'none',
-                                                        borderRadius: '6px',
-                                                        padding: '4px 12px',
-                                                        cursor: 'pointer',
-                                                        fontSize: '14px'
-                                                    }}
-                                                >
-                                                    حذف کریں
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                </h3>
+
+                                {/* 1. Certificates */}
+                                <div style={{ marginBottom: '24px' }}>
+                                    <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                        اسناد / سرٹیفیکیٹ (Certificates)
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*,.pdf"
+                                        onChange={handleCertificateUpload}
+                                        style={{
+                                            display: 'block',
+                                            width: '100%',
+                                            padding: '12px',
+                                            border: '2px dashed #058464',
+                                            borderRadius: '12px',
+                                            fontSize: '16px',
+                                            cursor: 'pointer',
+                                            backgroundColor: '#f9f9f9'
+                                        }}
+                                    />
+                                    {certificateFiles.length > 0 && (
+                                        <div style={{ marginTop: '12px' }}>
+                                            <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                                منتخب شدہ فائلیں: {certificateFiles.length}
+                                            </p>
+                                            {certificateFiles.map((file, index) => (
+                                                <div key={index} style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    justifyContent: 'space-between',
+                                                    padding: '6px 10px',
+                                                    backgroundColor: '#f0f0f0',
+                                                    borderRadius: '6px',
+                                                    marginBottom: '6px'
+                                                }}>
+                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                        {file.name}
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeCertificateFile(index)}
+                                                        style={{
+                                                            background: '#dc3545',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '4px',
+                                                            padding: '3px 10px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        حذف
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 2. CNIC/B-Form */}
+                                <div style={{ marginBottom: '24px' }}>
+                                    <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                        شناختی کارڈ / ب فارم (CNIC/B-Form)
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*,.pdf"
+                                        onChange={handleCnicUpload}
+                                        style={{
+                                            display: 'block',
+                                            width: '100%',
+                                            padding: '12px',
+                                            border: '2px dashed #058464',
+                                            borderRadius: '12px',
+                                            fontSize: '16px',
+                                            cursor: 'pointer',
+                                            backgroundColor: '#f9f9f9'
+                                        }}
+                                    />
+                                    {cnicFiles.length > 0 && (
+                                        <div style={{ marginTop: '12px' }}>
+                                            <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                                منتخب شدہ فائلیں: {cnicFiles.length}
+                                            </p>
+                                            {cnicFiles.map((file, index) => (
+                                                <div key={index} style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    justifyContent: 'space-between',
+                                                    padding: '6px 10px',
+                                                    backgroundColor: '#f0f0f0',
+                                                    borderRadius: '6px',
+                                                    marginBottom: '6px'
+                                                }}>
+                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                        {file.name}
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeCnicFile(index)}
+                                                        style={{
+                                                            background: '#dc3545',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '4px',
+                                                            padding: '3px 10px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        حذف
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 3. Additional Documents */}
+                                <div style={{ marginBottom: '24px' }}>
+                                    <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                        اضافی دستاویزات (Additional Documents)
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*,.pdf"
+                                        onChange={handleAdditionalUpload}
+                                        style={{
+                                            display: 'block',
+                                            width: '100%',
+                                            padding: '12px',
+                                            border: '2px dashed #058464',
+                                            borderRadius: '12px',
+                                            fontSize: '16px',
+                                            cursor: 'pointer',
+                                            backgroundColor: '#f9f9f9'
+                                        }}
+                                    />
+                                    {additionalFiles.length > 0 && (
+                                        <div style={{ marginTop: '12px' }}>
+                                            <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                                منتخب شدہ فائلیں: {additionalFiles.length}
+                                            </p>
+                                            {additionalFiles.map((file, index) => (
+                                                <div key={index} style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    justifyContent: 'space-between',
+                                                    padding: '6px 10px',
+                                                    backgroundColor: '#f0f0f0',
+                                                    borderRadius: '6px',
+                                                    marginBottom: '6px'
+                                                }}>
+                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                        {file.name}
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeAdditionalFile(index)}
+                                                        style={{
+                                                            background: '#dc3545',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '4px',
+                                                            padding: '3px 10px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        حذف
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="form-footer" style={{ marginTop: '48px' }}>
@@ -566,65 +714,189 @@ export default function FormStep2() {
 
                         {/* Document Upload Section */}
                         <div style={{ marginTop: '32px' }}>
-                            <label className="form-label" style={{ display: 'block', marginBottom: '12px', fontSize: '22px' }}>
+                            <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#058464' }}>
                                 دستاویزات اپ لوڈ کریں (اختیاری)
-                                <span style={{ fontSize: '18px', color: '#666', display: 'block', marginTop: '4px' }}>
-                                    (شناختی کارڈ، ب فارم، سرٹیفکیٹ، وغیرہ)
-                                </span>
-                            </label>
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/*,.pdf"
-                                onChange={handleFileUpload}
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    padding: '12px',
-                                    border: '2px dashed #058464',
-                                    borderRadius: '12px',
-                                    fontSize: '18px',
-                                    cursor: 'pointer',
-                                    backgroundColor: '#f9f9f9'
-                                }}
-                            />
-                            {uploadedFiles.length > 0 && (
-                                <div style={{ marginTop: '16px' }}>
-                                    <p style={{ fontSize: '18px', marginBottom: '8px', color: '#058464' }}>
-                                        منتخب شدہ فائلیں: {uploadedFiles.length}
-                                    </p>
-                                    {uploadedFiles.map((file, index) => (
-                                        <div key={index} style={{ 
-                                            display: 'flex', 
-                                            alignItems: 'center', 
-                                            justifyContent: 'space-between',
-                                            padding: '8px 12px',
-                                            backgroundColor: '#f0f0f0',
-                                            borderRadius: '8px',
-                                            marginBottom: '8px'
-                                        }}>
-                                            <span style={{ fontSize: '16px', fontFamily: 'Roboto, sans-serif' }}>
-                                                {file.name}
-                                            </span>
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFile(index)}
-                                                style={{
-                                                    background: '#dc3545',
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    borderRadius: '6px',
-                                                    padding: '4px 12px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '14px'
-                                                }}
-                                            >
-                                                حذف کریں
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                            </h3>
+
+                            {/* 1. Certificates */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                    اسناد / سرٹیفیکیٹ (Certificates)
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*,.pdf"
+                                    onChange={handleCertificateUpload}
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '2px dashed #058464',
+                                        borderRadius: '12px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9'
+                                    }}
+                                />
+                                {certificateFiles.length > 0 && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                            منتخب شدہ فائلیں: {certificateFiles.length}
+                                        </p>
+                                        {certificateFiles.map((file, index) => (
+                                            <div key={index} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                justifyContent: 'space-between',
+                                                padding: '6px 10px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '6px',
+                                                marginBottom: '6px'
+                                            }}>
+                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    {file.name}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeCertificateFile(index)}
+                                                    style={{
+                                                        background: '#dc3545',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '4px',
+                                                        padding: '3px 10px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    حذف
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 2. CNIC/B-Form */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                    شناختی کارڈ / ب فارم (CNIC/B-Form)
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*,.pdf"
+                                    onChange={handleCnicUpload}
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '2px dashed #058464',
+                                        borderRadius: '12px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9'
+                                    }}
+                                />
+                                {cnicFiles.length > 0 && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                            منتخب شدہ فائلیں: {cnicFiles.length}
+                                        </p>
+                                        {cnicFiles.map((file, index) => (
+                                            <div key={index} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                justifyContent: 'space-between',
+                                                padding: '6px 10px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '6px',
+                                                marginBottom: '6px'
+                                            }}>
+                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    {file.name}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeCnicFile(index)}
+                                                    style={{
+                                                        background: '#dc3545',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '4px',
+                                                        padding: '3px 10px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    حذف
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 3. Additional Documents */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                    اضافی دستاویزات (Additional Documents)
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*,.pdf"
+                                    onChange={handleAdditionalUpload}
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '2px dashed #058464',
+                                        borderRadius: '12px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9'
+                                    }}
+                                />
+                                {additionalFiles.length > 0 && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                            منتخب شدہ فائلیں: {additionalFiles.length}
+                                        </p>
+                                        {additionalFiles.map((file, index) => (
+                                            <div key={index} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                justifyContent: 'space-between',
+                                                padding: '6px 10px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '6px',
+                                                marginBottom: '6px'
+                                            }}>
+                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    {file.name}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeAdditionalFile(index)}
+                                                    style={{
+                                                        background: '#dc3545',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '4px',
+                                                        padding: '3px 10px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    حذف
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>
