@@ -31,6 +31,7 @@ export default function FormStep2() {
     const [fullAddress, setFullAddress] = useState('');
     const [currentAddress, setCurrentAddress] = useState('');
     // New admission
+    const [educationType, setEducationType] = useState('');
     const [requiredGrade, setRequiredGrade] = useState(PLACEHOLDER_OPTION);
     const [previousEducation, setPreviousEducation] = useState('');
     // Existing student
@@ -44,8 +45,22 @@ export default function FormStep2() {
 
     const [error, setError] = useState(false);
     
+    /* ── Document uploads (optional) ── */
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+    
     /* ── Field-level validation errors ── */
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const filesArray = Array.from(e.target.files);
+            setUploadedFiles(prev => [...prev, ...filesArray]);
+        }
+    };
+
+    const removeFile = (index: number) => {
+        setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    };
 
     const handleSubmit = async () => {
         const errors: Record<string, string> = {};
@@ -83,6 +98,10 @@ export default function FormStep2() {
         }
 
         if (isNew) {
+            if (!educationType) {
+                errors.educationType = 'دینی / عصری تعلیم درج کریں';
+                showToast('دینی / عصری تعلیم درج کریں', 'error');
+            }
             if (requiredGrade === PLACEHOLDER_OPTION) {
                 errors.requiredGrade = 'مطلوبہ درجہ منتخب کریں';
                 showToast('مطلوبہ درجہ منتخب کریں', 'error');
@@ -127,6 +146,7 @@ export default function FormStep2() {
             whatsapp,
             fullAddress,
             currentAddress,
+            educationType: isNew ? educationType : '',
             requiredGrade: isNew ? requiredGrade : '',
             previousEducation: isNew ? previousEducation : '',
             registrationNo: isNew ? '' : registrationNo,
@@ -252,6 +272,16 @@ export default function FormStep2() {
                             />
 
                             <FormField
+                                label="دینی / عصری تعلیم"
+                                required
+                                id="education-type"
+                                value={educationType}
+                                onChange={setEducationType}
+                                alphabeticOnly
+                                error={fieldErrors.educationType}
+                            />
+
+                            <FormField
                                 label="مطلوبہ شعبہ و درجہ تعلیم"
                                 required
                                 type="select"
@@ -270,6 +300,69 @@ export default function FormStep2() {
                                 onChange={setPreviousEducation}
                                 hint="ادارے کا نام اور درجہ تعلیم لکھیں"
                             />
+
+                            {/* Document Upload Section */}
+                            <div style={{ marginTop: '32px' }}>
+                                <label className="form-label" style={{ display: 'block', marginBottom: '12px', fontSize: '22px' }}>
+                                    دستاویزات اپ لوڈ کریں (اختیاری)
+                                    <span style={{ fontSize: '18px', color: '#666', display: 'block', marginTop: '4px' }}>
+                                        (شناختی کارڈ، ب فارم، سرٹیفکیٹ، وغیرہ)
+                                    </span>
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*,.pdf"
+                                    onChange={handleFileUpload}
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '2px dashed #058464',
+                                        borderRadius: '12px',
+                                        fontSize: '18px',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9'
+                                    }}
+                                />
+                                {uploadedFiles.length > 0 && (
+                                    <div style={{ marginTop: '16px' }}>
+                                        <p style={{ fontSize: '18px', marginBottom: '8px', color: '#058464' }}>
+                                            منتخب شدہ فائلیں: {uploadedFiles.length}
+                                        </p>
+                                        {uploadedFiles.map((file, index) => (
+                                            <div key={index} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                justifyContent: 'space-between',
+                                                padding: '8px 12px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '8px',
+                                                marginBottom: '8px'
+                                            }}>
+                                                <span style={{ fontSize: '16px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    {file.name}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeFile(index)}
+                                                    style={{
+                                                        background: '#dc3545',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '6px',
+                                                        padding: '4px 12px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '14px'
+                                                    }}
+                                                >
+                                                    حذف کریں
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
 
                             <div className="form-footer" style={{ marginTop: '48px' }}>
                                 <button 
@@ -470,6 +563,69 @@ export default function FormStep2() {
                             value={remarks}
                             onChange={setRemarks}
                         />
+
+                        {/* Document Upload Section */}
+                        <div style={{ marginTop: '32px' }}>
+                            <label className="form-label" style={{ display: 'block', marginBottom: '12px', fontSize: '22px' }}>
+                                دستاویزات اپ لوڈ کریں (اختیاری)
+                                <span style={{ fontSize: '18px', color: '#666', display: 'block', marginTop: '4px' }}>
+                                    (شناختی کارڈ، ب فارم، سرٹیفکیٹ، وغیرہ)
+                                </span>
+                            </label>
+                            <input
+                                type="file"
+                                multiple
+                                accept="image/*,.pdf"
+                                onChange={handleFileUpload}
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    padding: '12px',
+                                    border: '2px dashed #058464',
+                                    borderRadius: '12px',
+                                    fontSize: '18px',
+                                    cursor: 'pointer',
+                                    backgroundColor: '#f9f9f9'
+                                }}
+                            />
+                            {uploadedFiles.length > 0 && (
+                                <div style={{ marginTop: '16px' }}>
+                                    <p style={{ fontSize: '18px', marginBottom: '8px', color: '#058464' }}>
+                                        منتخب شدہ فائلیں: {uploadedFiles.length}
+                                    </p>
+                                    {uploadedFiles.map((file, index) => (
+                                        <div key={index} style={{ 
+                                            display: 'flex', 
+                                            alignItems: 'center', 
+                                            justifyContent: 'space-between',
+                                            padding: '8px 12px',
+                                            backgroundColor: '#f0f0f0',
+                                            borderRadius: '8px',
+                                            marginBottom: '8px'
+                                        }}>
+                                            <span style={{ fontSize: '16px', fontFamily: 'Roboto, sans-serif' }}>
+                                                {file.name}
+                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeFile(index)}
+                                                style={{
+                                                    background: '#dc3545',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '6px',
+                                                    padding: '4px 12px',
+                                                    cursor: 'pointer',
+                                                    fontSize: '14px'
+                                                }}
+                                            >
+                                                حذف کریں
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>
                             <button 

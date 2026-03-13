@@ -1,1 +1,1 @@
-export { PLACEHOLDER_OPTION, admissionTypes, genders, departments, gradeOptions } from './formData';
+export { PLACEHOLDER_OPTION, admissionTypes, genders, departments, gradeOptions, educationTypes } from './formData';
