@@ -33,3 +33,9 @@ export const gradeOptions: string[] = [
     'عالمیہ اول',
     'عالمیہ دوئم',
 ];
+
+export const educationTypes: string[] = [
+    PLACEHOLDER_OPTION,
+    'دینی',
+    'عصری',
+];
