@@ -226,6 +226,102 @@ export default function SuccessPage() {
                                         </span>
                                     </p>
                                 </div>
+
+                                {/* Document URLs Section */}
+                                {(record.certificateUrls?.length || record.cnicUrls?.length || record.additionalUrls?.length) ? (
+                                    <div style={{ marginTop: '24px', borderTop: '2px solid #e0e0e0', paddingTop: '16px' }}>
+                                        <h3 style={{ fontSize: '24px', marginBottom: '16px', color: '#058464', textAlign: 'center' }}>
+                                            اپ لوڈ شدہ دستاویزات
+                                        </h3>
+                                        
+                                        {record.certificateUrls && record.certificateUrls.length > 0 && (
+                                            <div style={{ marginBottom: '16px' }}>
+                                                <p style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>
+                                                    اسناد / سرٹیفیکیٹ:
+                                                </p>
+                                                {record.certificateUrls.map((url, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            display: 'block',
+                                                            padding: '8px 12px',
+                                                            marginBottom: '6px',
+                                                            backgroundColor: '#f0f0f0',
+                                                            borderRadius: '6px',
+                                                            color: '#058464',
+                                                            textDecoration: 'none',
+                                                            fontSize: '16px',
+                                                            fontFamily: 'Roboto, sans-serif'
+                                                        }}
+                                                    >
+                                                        📄 Certificate {idx + 1}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {record.cnicUrls && record.cnicUrls.length > 0 && (
+                                            <div style={{ marginBottom: '16px' }}>
+                                                <p style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>
+                                                    شناختی کارڈ / ب فارم:
+                                                </p>
+                                                {record.cnicUrls.map((url, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            display: 'block',
+                                                            padding: '8px 12px',
+                                                            marginBottom: '6px',
+                                                            backgroundColor: '#f0f0f0',
+                                                            borderRadius: '6px',
+                                                            color: '#058464',
+                                                            textDecoration: 'none',
+                                                            fontSize: '16px',
+                                                            fontFamily: 'Roboto, sans-serif'
+                                                        }}
+                                                    >
+                                                        🆔 CNIC {idx + 1}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {record.additionalUrls && record.additionalUrls.length > 0 && (
+                                            <div style={{ marginBottom: '16px' }}>
+                                                <p style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>
+                                                    اضافی دستاویزات:
+                                                </p>
+                                                {record.additionalUrls.map((url, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            display: 'block',
+                                                            padding: '8px 12px',
+                                                            marginBottom: '6px',
+                                                            backgroundColor: '#f0f0f0',
+                                                            borderRadius: '6px',
+                                                            color: '#058464',
+                                                            textDecoration: 'none',
+                                                            fontSize: '16px',
+                                                            fontFamily: 'Roboto, sans-serif'
+                                                        }}
+                                                    >
+                                                        📎 Document {idx + 1}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                     )}

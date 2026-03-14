@@ -17,9 +17,10 @@ const ltrStyle: React.CSSProperties = {
 
 export default function FormStep2() {
     const navigate = useNavigate();
-    const { formData, submitForm, loading, error: apiError } = useFormContext();
+    const { formData, error: apiError } = useFormContext();
     const { showToast } = useToast();
     const isNew = formData.admissionType === 'نیا داخلہ';
+    const [loading, setLoading] = useState(false);
 
     /* ── local state ── */
     const [studentName, setStudentName] = useState('');
@@ -38,9 +39,6 @@ export default function FormStep2() {
     const [registrationNo, setRegistrationNo] = useState('');
     const [lastYearGrade, setLastYearGrade] = useState(PLACEHOLDER_OPTION);
     const [nextYearGrade, setNextYearGrade] = useState(PLACEHOLDER_OPTION);
-    const [examPart1Marks, setExamPart1Marks] = useState('');
-    const [examPart2Marks, setExamPart2Marks] = useState('');
-    const [totalMarks, setTotalMarks] = useState('');
     const [remarks, setRemarks] = useState('');
 
     const [error, setError] = useState(false);
@@ -159,37 +157,77 @@ export default function FormStep2() {
             ? `${cnic.slice(0, 5)}-${cnic.slice(5, 12)}-${cnic.slice(12)}` 
             : cnic;
 
-        /* ── Build complete form data ── */
-        const completeFormData = {
-            ...formData,
-            studentName,
-            fatherName,
-            dob,
-            cnic: formattedCnic,
-            phone,
-            whatsapp,
-            fullAddress,
-            currentAddress,
-            educationType: isNew ? educationType : '',
-            requiredGrade: isNew ? requiredGrade : '',
-            previousEducation: isNew ? previousEducation : '',
-            registrationNo: isNew ? '' : registrationNo,
-            lastYearGrade: isNew ? '' : lastYearGrade,
-            nextYearGrade: isNew ? '' : nextYearGrade,
-            examPart1Marks: isNew ? '' : examPart1Marks,
-            examPart2Marks: isNew ? '' : examPart2Marks,
-            totalMarks: isNew ? '' : totalMarks,
-            remarks: isNew ? '' : remarks,
-        };
+        /* ── Create FormData for file upload ── */
+        const formDataToSubmit = new FormData();
+
+        // Add all text fields
+        formDataToSubmit.append('admissionType', formData.admissionType);
+        formDataToSubmit.append('gender', formData.gender);
+        formDataToSubmit.append('department', formData.department);
+        formDataToSubmit.append('studentName', studentName);
+        formDataToSubmit.append('fatherName', fatherName || '');
+        formDataToSubmit.append('dob', dob);
+        formDataToSubmit.append('cnic', formattedCnic);
+        formDataToSubmit.append('phone', phone);
+        formDataToSubmit.append('whatsapp', whatsapp || '');
+        formDataToSubmit.append('fullAddress', fullAddress || '');
+        formDataToSubmit.append('currentAddress', currentAddress);
+        
+        // New admission fields
+        if (isNew) {
+            formDataToSubmit.append('educationType', educationType);
+            formDataToSubmit.append('requiredGrade', requiredGrade);
+            formDataToSubmit.append('previousEducation', previousEducation || '');
+        }
+        
+        // Existing student fields
+        if (!isNew) {
+            formDataToSubmit.append('registrationNo', registrationNo);
+            formDataToSubmit.append('lastYearGrade', lastYearGrade);
+            formDataToSubmit.append('nextYearGrade', nextYearGrade);
+            formDataToSubmit.append('remarks', remarks || '');
+        }
+
+        // Add certificate files
+        certificateFiles.forEach((file) => {
+            formDataToSubmit.append('certificates', file);
+        });
+
+        // Add CNIC files
+        cnicFiles.forEach((file) => {
+            formDataToSubmit.append('cnicDocuments', file);
+        });
+
+        // Add additional files
+        additionalFiles.forEach((file) => {
+            formDataToSubmit.append('additionalDocuments', file);
+        });
 
         try {
+            setLoading(true);
             showToast('فارم جمع ہو رہا ہے...', 'info');
-            await submitForm(completeFormData);
-            showToast('فارم کامیابی سے جمع ہو گیا', 'success');
-            navigate('/success', { state: { record: completeFormData } });
+            
+            // Send FormData directly to API
+            const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await fetch(`${API_BASE_URL}/api/records`, {
+                method: 'POST',
+                body: formDataToSubmit
+                // Don't set Content-Type header - browser will set it automatically with boundary
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showToast('فارم کامیابی سے جمع ہو گیا', 'success');
+                navigate('/success', { state: { record: data } });
+            } else {
+                showToast(data.message || 'فارم جمع کرنے میں خرابی', 'error');
+            }
         } catch (err) {
             showToast('فارم جمع کرنے میں خرابی', 'error');
             console.error('Form submission failed:', err);
+        } finally {
+            setLoading(false);
         }
     };
 

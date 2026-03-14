@@ -114,6 +114,102 @@ export default function RecordDetailPage() {
                             rows={step2Rows}
                         />
 
+                        {/* Document URLs Section */}
+                        {(rec.certificateUrls?.length || rec.cnicUrls?.length || rec.additionalUrls?.length) ? (
+                            <div style={{ marginTop: '32px', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '12px' }}>
+                                <h3 style={{ fontSize: '24px', marginBottom: '16px', color: '#058464' }}>
+                                    اپ لوڈ شدہ دستاویزات
+                                </h3>
+                                
+                                {rec.certificateUrls && rec.certificateUrls.length > 0 && (
+                                    <div style={{ marginBottom: '16px' }}>
+                                        <p style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+                                            اسناد / سرٹیفیکیٹ:
+                                        </p>
+                                        {rec.certificateUrls.map((url, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    display: 'block',
+                                                    padding: '8px 12px',
+                                                    marginBottom: '6px',
+                                                    backgroundColor: 'white',
+                                                    borderRadius: '6px',
+                                                    color: '#058464',
+                                                    textDecoration: 'none',
+                                                    fontSize: '14px',
+                                                    fontFamily: 'Roboto, sans-serif'
+                                                }}
+                                            >
+                                                📄 Certificate {idx + 1}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {rec.cnicUrls && rec.cnicUrls.length > 0 && (
+                                    <div style={{ marginBottom: '16px' }}>
+                                        <p style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+                                            شناختی کارڈ / ب فارم:
+                                        </p>
+                                        {rec.cnicUrls.map((url, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    display: 'block',
+                                                    padding: '8px 12px',
+                                                    marginBottom: '6px',
+                                                    backgroundColor: 'white',
+                                                    borderRadius: '6px',
+                                                    color: '#058464',
+                                                    textDecoration: 'none',
+                                                    fontSize: '14px',
+                                                    fontFamily: 'Roboto, sans-serif'
+                                                }}
+                                            >
+                                                🆔 CNIC {idx + 1}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {rec.additionalUrls && rec.additionalUrls.length > 0 && (
+                                    <div style={{ marginBottom: '16px' }}>
+                                        <p style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+                                            اضافی دستاویزات:
+                                        </p>
+                                        {rec.additionalUrls.map((url, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    display: 'block',
+                                                    padding: '8px 12px',
+                                                    marginBottom: '6px',
+                                                    backgroundColor: 'white',
+                                                    borderRadius: '6px',
+                                                    color: '#058464',
+                                                    textDecoration: 'none',
+                                                    fontSize: '14px',
+                                                    fontFamily: 'Roboto, sans-serif'
+                                                }}
+                                            >
+                                                📎 Document {idx + 1}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ) : null}
+
                         <div className="success-buttons">
                             <button className="submit-button" onClick={() => navigate('/records')}>
                                 واپس فارمز کی فہرست

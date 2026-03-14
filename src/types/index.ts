@@ -25,6 +25,9 @@ export interface FormData {
 export interface SubmittedRecord extends FormData {
     id: number;
     submittedAt: string;
+    certificateUrls?: string[];
+    cnicUrls?: string[];
+    additionalUrls?: string[];
 }
 
 export const initialFormData: FormData = {
