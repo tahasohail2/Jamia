@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Stepper from '../components/Stepper';
 import Card from '../components/Card';
 import FormField from '../components/FormField';
+import ConfirmModal from '../components/ConfirmModal';
 import { useFormContext } from '../context/FormContext';
 import { useToast } from '../components/ToastContainer';
 import { PLACEHOLDER_OPTION, gradeOptions } from '../constants';
@@ -47,6 +48,10 @@ export default function FormStep2() {
     const [certificateFiles, setCertificateFiles] = useState<File[]>([]);
     const [cnicFiles, setCnicFiles] = useState<File[]>([]);
     const [additionalFiles, setAdditionalFiles] = useState<File[]>([]);
+    
+    /* ── Confirmation modal state ── */
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [pendingDeleteAction, setPendingDeleteAction] = useState<(() => void) | null>(null);
     
     /* ── Field-level validation errors ── */
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -172,6 +177,10 @@ export default function FormStep2() {
             let hasEmptyFile = false;
             let hasCorruptFile = false;
 
+            // Calculate current total size
+            const currentTotalSize = certificateFiles.reduce((sum, file) => sum + file.size, 0);
+            const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+
             for (const file of filesArray) {
                 // Check if file is empty
                 if (file.size === 0) {
@@ -194,6 +203,14 @@ export default function FormStep2() {
                 } else {
                     newFiles.push(file);
                 }
+            }
+
+            // Check if adding new files exceeds 20MB limit
+            const newTotalSize = newFiles.reduce((sum, file) => sum + file.size, 0);
+            if (currentTotalSize + newTotalSize > maxSize) {
+                showToast('اسناد کی کل سائز 20MB سے زیادہ نہیں ہو سکتی', 'error');
+                e.target.value = '';
+                return;
             }
 
             if (hasEmptyFile) {
@@ -225,6 +242,10 @@ export default function FormStep2() {
             let hasEmptyFile = false;
             let hasCorruptFile = false;
 
+            // Calculate current total size
+            const currentTotalSize = cnicFiles.reduce((sum, file) => sum + file.size, 0);
+            const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+
             for (const file of filesArray) {
                 // Check if file is empty
                 if (file.size === 0) {
@@ -247,6 +268,14 @@ export default function FormStep2() {
                 } else {
                     newFiles.push(file);
                 }
+            }
+
+            // Check if adding new files exceeds 20MB limit
+            const newTotalSize = newFiles.reduce((sum, file) => sum + file.size, 0);
+            if (currentTotalSize + newTotalSize > maxSize) {
+                showToast('شناختی کارڈ/ب فارم کی کل سائز 20MB سے زیادہ نہیں ہو سکتی', 'error');
+                e.target.value = '';
+                return;
             }
 
             if (hasEmptyFile) {
@@ -278,6 +307,10 @@ export default function FormStep2() {
             let hasEmptyFile = false;
             let hasCorruptFile = false;
 
+            // Calculate current total size
+            const currentTotalSize = additionalFiles.reduce((sum, file) => sum + file.size, 0);
+            const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+
             for (const file of filesArray) {
                 // Check if file is empty
                 if (file.size === 0) {
@@ -302,6 +335,14 @@ export default function FormStep2() {
                 }
             }
 
+            // Check if adding new files exceeds 20MB limit
+            const newTotalSize = newFiles.reduce((sum, file) => sum + file.size, 0);
+            if (currentTotalSize + newTotalSize > maxSize) {
+                showToast('اضافی دستاویزات کی کل سائز 20MB سے زیادہ نہیں ہو سکتی', 'error');
+                e.target.value = '';
+                return;
+            }
+
             if (hasEmptyFile) {
                 showToast('فائل خالی ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
             }
@@ -324,21 +365,37 @@ export default function FormStep2() {
     };
 
     const removeCertificateFile = (index: number) => {
-        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+        setPendingDeleteAction(() => () => {
             setCertificateFiles(prev => prev.filter((_, i) => i !== index));
-        }
+        });
+        setShowConfirmModal(true);
     };
 
     const removeCnicFile = (index: number) => {
-        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+        setPendingDeleteAction(() => () => {
             setCnicFiles(prev => prev.filter((_, i) => i !== index));
-        }
+        });
+        setShowConfirmModal(true);
     };
 
     const removeAdditionalFile = (index: number) => {
-        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+        setPendingDeleteAction(() => () => {
             setAdditionalFiles(prev => prev.filter((_, i) => i !== index));
+        });
+        setShowConfirmModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (pendingDeleteAction) {
+            pendingDeleteAction();
         }
+        setShowConfirmModal(false);
+        setPendingDeleteAction(null);
+    };
+
+    const handleCancelDelete = () => {
+        setShowConfirmModal(false);
+        setPendingDeleteAction(null);
     };
 
     const previewFile = (file: File) => {
@@ -664,7 +721,7 @@ export default function FormStep2() {
                                         Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                     </p>
                                     <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                        زیادہ سے زیادہ سائز 20MB ہے
                                     </p>
                                     {certificateFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
@@ -743,7 +800,7 @@ export default function FormStep2() {
                                         Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                     </p>
                                     <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                        زیادہ سے زیادہ سائز 20MB ہے
                                     </p>
                                     {cnicFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
@@ -797,7 +854,7 @@ export default function FormStep2() {
                                 {/* 3. Additional Documents */}
                                 <div style={{ marginBottom: '24px' }}>
                                     <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
-                                        اضافی دستاویزات (Additional Documents)
+                                        اضافی دستاویزات (Additional&nbsp;Documents)
                                     </label>
                                     <input
                                         type="file"
@@ -819,7 +876,7 @@ export default function FormStep2() {
                                         Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                     </p>
                                     <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                        زیادہ سے زیادہ سائز 20MB ہے
                                     </p>
                                     {additionalFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
@@ -898,6 +955,13 @@ export default function FormStep2() {
                         </Card>
                     </div>
                 </div>
+                
+                <ConfirmModal
+                    isOpen={showConfirmModal}
+                    message="کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟"
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
             </>
         );
     }
@@ -1103,7 +1167,7 @@ export default function FormStep2() {
                                     Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                 </p>
                                 <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                    زیادہ سے زیادہ سائز 20MB ہے
                                 </p>
                                 {certificateFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
@@ -1182,7 +1246,7 @@ export default function FormStep2() {
                                     Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                 </p>
                                 <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                    زیادہ سے زیادہ سائز 20MB ہے
                                 </p>
                                 {cnicFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
@@ -1236,7 +1300,7 @@ export default function FormStep2() {
                             {/* 3. Additional Documents */}
                             <div style={{ marginBottom: '24px' }}>
                                 <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
-                                    اضافی دستاویزات (Additional Documents)
+                                    اضافی دستاویزات (Additional&nbsp;Documents)
                                 </label>
                                 <input
                                     type="file"
@@ -1258,7 +1322,7 @@ export default function FormStep2() {
                                     Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
                                 </p>
                                 <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                    زیادہ سے زیادہ سائز 20MB ہے
                                 </p>
                                 {additionalFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
@@ -1337,6 +1401,13 @@ export default function FormStep2() {
                     </Card>
                 </div>
             </div>
+            
+            <ConfirmModal
+                isOpen={showConfirmModal}
+                message="کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟"
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+            />
         </>
     );
 }
