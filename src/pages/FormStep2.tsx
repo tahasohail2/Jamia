@@ -51,37 +51,299 @@ export default function FormStep2() {
     /* ── Field-level validation errors ── */
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-    const handleCertificateUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const filesArray = Array.from(e.target.files);
-            setCertificateFiles(prev => [...prev, ...filesArray]);
+    const clearFieldError = (fieldName: string) => {
+        if (fieldErrors[fieldName]) {
+            setFieldErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[fieldName];
+                return newErrors;
+            });
         }
     };
 
-    const handleCnicUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Wrapper functions to clear errors on change
+    const handleStudentNameChange = (value: string) => {
+        setStudentName(value);
+        clearFieldError('studentName');
+    };
+
+    const handleDobChange = (value: string) => {
+        setDob(value);
+        clearFieldError('dob');
+    };
+
+    const handleCnicChange = (value: string) => {
+        setCnic(value);
+        clearFieldError('cnic');
+    };
+
+    const handlePhoneChange = (value: string) => {
+        setPhone(value);
+        clearFieldError('phone');
+    };
+
+    const handleWhatsappChange = (value: string) => {
+        setWhatsapp(value);
+        clearFieldError('whatsapp');
+    };
+
+    const handleCurrentAddressChange = (value: string) => {
+        setCurrentAddress(value);
+        clearFieldError('currentAddress');
+    };
+
+    const handleEducationTypeChange = (value: string) => {
+        setEducationType(value);
+        clearFieldError('educationType');
+    };
+
+    const handleRequiredGradeChange = (value: string) => {
+        setRequiredGrade(value);
+        clearFieldError('requiredGrade');
+    };
+
+    const handleRegistrationNoChange = (value: string) => {
+        setRegistrationNo(value);
+        clearFieldError('registrationNo');
+    };
+
+    const handleLastYearGradeChange = (value: string) => {
+        setLastYearGrade(value);
+        clearFieldError('lastYearGrade');
+    };
+
+    const handleNextYearGradeChange = (value: string) => {
+        setNextYearGrade(value);
+        clearFieldError('nextYearGrade');
+    };
+
+    const validateFile = (file: File): Promise<boolean> => {
+        return new Promise((resolve) => {
+            const fileType = file.type;
+
+            // Check if it's an image
+            if (fileType.startsWith('image/')) {
+                const img = new Image();
+                const objectUrl = URL.createObjectURL(file);
+
+                img.onload = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    resolve(true);
+                };
+
+                img.onerror = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    resolve(false);
+                };
+
+                img.src = objectUrl;
+            }
+            // Check if it's a PDF
+            else if (fileType === 'application/pdf') {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const content = e.target?.result as ArrayBuffer;
+                    const arr = new Uint8Array(content);
+                    
+                    // Check PDF signature (starts with %PDF)
+                    const isPDF = arr[0] === 0x25 && arr[1] === 0x50 && arr[2] === 0x44 && arr[3] === 0x46;
+                    resolve(isPDF);
+                };
+
+                reader.onerror = () => {
+                    resolve(false);
+                };
+
+                reader.readAsArrayBuffer(file.slice(0, 4));
+            }
+            // For other file types, accept them
+            else {
+                resolve(true);
+            }
+        });
+    };
+
+    const handleCertificateUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
-            setCnicFiles(prev => [...prev, ...filesArray]);
+            const newFiles: File[] = [];
+            const duplicates: string[] = [];
+            let hasEmptyFile = false;
+            let hasCorruptFile = false;
+
+            for (const file of filesArray) {
+                // Check if file is empty
+                if (file.size === 0) {
+                    hasEmptyFile = true;
+                    continue;
+                }
+
+                // Validate file integrity
+                const isValid = await validateFile(file);
+                if (!isValid) {
+                    hasCorruptFile = true;
+                    continue;
+                }
+
+                const isDuplicate = certificateFiles.some(existingFile => 
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+                if (isDuplicate) {
+                    duplicates.push(file.name);
+                } else {
+                    newFiles.push(file);
+                }
+            }
+
+            if (hasEmptyFile) {
+                showToast('فائل خالی ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (hasCorruptFile) {
+                showToast('فائل خراب ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (duplicates.length > 0) {
+                showToast('یہ فائل پہلے سے منتخب ہے، دوبارہ اپ لوڈ نہیں کی جا سکتی', 'warning');
+            }
+
+            if (newFiles.length > 0) {
+                setCertificateFiles(prev => [...prev, ...newFiles]);
+            }
+
+            // Reset input value to allow selecting the same file again if needed
+            e.target.value = '';
         }
     };
 
-    const handleAdditionalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCnicUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
-            setAdditionalFiles(prev => [...prev, ...filesArray]);
+            const newFiles: File[] = [];
+            const duplicates: string[] = [];
+            let hasEmptyFile = false;
+            let hasCorruptFile = false;
+
+            for (const file of filesArray) {
+                // Check if file is empty
+                if (file.size === 0) {
+                    hasEmptyFile = true;
+                    continue;
+                }
+
+                // Validate file integrity
+                const isValid = await validateFile(file);
+                if (!isValid) {
+                    hasCorruptFile = true;
+                    continue;
+                }
+
+                const isDuplicate = cnicFiles.some(existingFile => 
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+                if (isDuplicate) {
+                    duplicates.push(file.name);
+                } else {
+                    newFiles.push(file);
+                }
+            }
+
+            if (hasEmptyFile) {
+                showToast('فائل خالی ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (hasCorruptFile) {
+                showToast('فائل خراب ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (duplicates.length > 0) {
+                showToast('یہ فائل پہلے سے منتخب ہے، دوبارہ اپ لوڈ نہیں کی جا سکتی', 'warning');
+            }
+
+            if (newFiles.length > 0) {
+                setCnicFiles(prev => [...prev, ...newFiles]);
+            }
+
+            // Reset input value
+            e.target.value = '';
+        }
+    };
+
+    const handleAdditionalUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const filesArray = Array.from(e.target.files);
+            const newFiles: File[] = [];
+            const duplicates: string[] = [];
+            let hasEmptyFile = false;
+            let hasCorruptFile = false;
+
+            for (const file of filesArray) {
+                // Check if file is empty
+                if (file.size === 0) {
+                    hasEmptyFile = true;
+                    continue;
+                }
+
+                // Validate file integrity
+                const isValid = await validateFile(file);
+                if (!isValid) {
+                    hasCorruptFile = true;
+                    continue;
+                }
+
+                const isDuplicate = additionalFiles.some(existingFile => 
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+                if (isDuplicate) {
+                    duplicates.push(file.name);
+                } else {
+                    newFiles.push(file);
+                }
+            }
+
+            if (hasEmptyFile) {
+                showToast('فائل خالی ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (hasCorruptFile) {
+                showToast('فائل خراب ہے، اپ لوڈ نہیں کی جا سکتی', 'error');
+            }
+
+            if (duplicates.length > 0) {
+                showToast('یہ فائل پہلے سے منتخب ہے، دوبارہ اپ لوڈ نہیں کی جا سکتی', 'warning');
+            }
+
+            if (newFiles.length > 0) {
+                setAdditionalFiles(prev => [...prev, ...newFiles]);
+            }
+
+            // Reset input value
+            e.target.value = '';
         }
     };
 
     const removeCertificateFile = (index: number) => {
-        setCertificateFiles(prev => prev.filter((_, i) => i !== index));
+        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+            setCertificateFiles(prev => prev.filter((_, i) => i !== index));
+        }
     };
 
     const removeCnicFile = (index: number) => {
-        setCnicFiles(prev => prev.filter((_, i) => i !== index));
+        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+            setCnicFiles(prev => prev.filter((_, i) => i !== index));
+        }
     };
 
     const removeAdditionalFile = (index: number) => {
-        setAdditionalFiles(prev => prev.filter((_, i) => i !== index));
+        if (window.confirm('کیا آپ واقعی یہ فائل حذف کرنا چاہتے ہیں؟')) {
+            setAdditionalFiles(prev => prev.filter((_, i) => i !== index));
+        }
+    };
+
+    const previewFile = (file: File) => {
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL, '_blank');
     };
 
     const handleSubmit = async () => {
@@ -109,10 +371,16 @@ export default function FormStep2() {
         } else if (phone.length !== 11) {
             errors.phone = 'فون نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
             showToast('فون نمبر 11 ہندسوں پر مشتمل ہونا چاہیے', 'error');
+        } else if (!phone.startsWith('03')) {
+            errors.phone = 'فون نمبر 03 سے شروع ہونا چاہیے';
+            showToast('فون نمبر 03 سے شروع ہونا چاہیے', 'error');
         }
         if (whatsapp && whatsapp.length !== 11) {
             errors.whatsapp = 'وٹس ایپ نمبر 11 ہندسوں پر مشتمل ہونا چاہیے';
             showToast('وٹس ایپ نمبر 11 ہندسوں پر مشتمل ہونا چاہیے', 'warning');
+        } else if (whatsapp && !whatsapp.startsWith('03')) {
+            errors.whatsapp = 'وٹس ایپ نمبر 03 سے شروع ہونا چاہیے';
+            showToast('وٹس ایپ نمبر 03 سے شروع ہونا چاہیے', 'warning');
         }
         if (!currentAddress) {
             errors.currentAddress = 'موجودہ پتا درج کریں';
@@ -241,7 +509,7 @@ export default function FormStep2() {
                 <Stepper activeStep={2} />
                 <div className="App">
                     <div className="form-content" style={{ marginTop: '170px' }}>
-                        <Card headerLeft="دوسرا مرحلہ" headerRight="داخلہ کوائف (نیا داخلہ)">
+                        <Card headerLeft="دوسرا مرحلہ" headerRight="داخلہ کوائف (نیا داخلہ)" style={{ marginTop: '50px' }}>
                             <p
                                 className="description textCenter"
                                 style={{ fontSize: '30px', marginBottom: '16px' }}
@@ -255,7 +523,7 @@ export default function FormStep2() {
                                 required 
                                 id="student-name" 
                                 value={studentName} 
-                                onChange={setStudentName} 
+                                onChange={handleStudentNameChange} 
                                 alphabeticOnly
                                 error={fieldErrors.studentName}
                             />
@@ -272,7 +540,7 @@ export default function FormStep2() {
                                 type="date" 
                                 id="dob" 
                                 value={dob} 
-                                onChange={setDob} 
+                                onChange={handleDobChange} 
                                 inputStyle={{ fontFamily: 'Roboto, sans-serif' }} 
                                 error={fieldErrors.dob}
                             />
@@ -282,12 +550,14 @@ export default function FormStep2() {
                                 required
                                 id="cnic-field"
                                 value={cnic}
-                                onChange={setCnic}
+                                onChange={handleCnicChange}
                                 maxLength={13}
                                 placeholder="xxxxxxxxxxxxx"
                                 numericOnly
                                 inputStyle={ltrStyle}
                                 error={fieldErrors.cnic}
+                                readOnly
+                            
                             />
 
                             <FormField
@@ -295,7 +565,7 @@ export default function FormStep2() {
                                 required
                                 id="phone"
                                 value={phone}
-                                onChange={setPhone}
+                                onChange={handlePhoneChange}
                                 maxLength={11}
                                 placeholder="03xxxxxxxxx"
                                 numericOnly
@@ -307,7 +577,7 @@ export default function FormStep2() {
                                 label="وٹس ایپ/ٹیلی گرام نمبر"
                                 id="whatsapp"
                                 value={whatsapp}
-                                onChange={setWhatsapp}
+                                onChange={handleWhatsappChange}
                                 maxLength={11}
                                 placeholder="03xxxxxxxxx"
                                 numericOnly
@@ -329,7 +599,7 @@ export default function FormStep2() {
                                 type="textarea" 
                                 id="current-address" 
                                 value={currentAddress} 
-                                onChange={setCurrentAddress} 
+                                onChange={handleCurrentAddressChange} 
                                 error={fieldErrors.currentAddress}
                             />
 
@@ -338,7 +608,7 @@ export default function FormStep2() {
                                 required
                                 id="education-type"
                                 value={educationType}
-                                onChange={setEducationType}
+                                onChange={handleEducationTypeChange}
                                 alphabeticOnly
                                 error={fieldErrors.educationType}
                             />
@@ -349,7 +619,7 @@ export default function FormStep2() {
                                 type="select"
                                 id="required-grade"
                                 value={requiredGrade}
-                                onChange={setRequiredGrade}
+                                onChange={handleRequiredGradeChange}
                                 options={gradeOptions}
                                 error={fieldErrors.requiredGrade}
                             />
@@ -390,6 +660,12 @@ export default function FormStep2() {
                                             backgroundColor: '#f9f9f9'
                                         }}
                                     />
+                                    <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                        Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                    </p>
+                                    <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                    </p>
                                     {certificateFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
                                             <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -405,7 +681,17 @@ export default function FormStep2() {
                                                     borderRadius: '6px',
                                                     marginBottom: '6px'
                                                 }}>
-                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    <span 
+                                                        onClick={() => previewFile(file)}
+                                                        style={{ 
+                                                            fontSize: '14px', 
+                                                            fontFamily: 'Roboto, sans-serif',
+                                                            cursor: 'pointer',
+                                                            color: '#058464',
+                                                            textDecoration: 'underline',
+                                                            flex: 1
+                                                        }}
+                                                    >
                                                         {file.name}
                                                     </span>
                                                     <button
@@ -434,6 +720,9 @@ export default function FormStep2() {
                                     <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
                                         شناختی کارڈ / ب فارم (CNIC/B-Form)
                                     </label>
+                                    <p style={{ fontSize: '18px', color: '#058464', marginBottom: '8px' }}>
+                                        درست شناختی کارڈ/ب فارم کی تصویر اپ لوڈ کریں (اگلا/پچھلا)
+                                    </p>
                                     <input
                                         type="file"
                                         multiple
@@ -450,6 +739,12 @@ export default function FormStep2() {
                                             backgroundColor: '#f9f9f9'
                                         }}
                                     />
+                                    <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                        Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                    </p>
+                                    <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                    </p>
                                     {cnicFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
                                             <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -465,7 +760,17 @@ export default function FormStep2() {
                                                     borderRadius: '6px',
                                                     marginBottom: '6px'
                                                 }}>
-                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    <span 
+                                                        onClick={() => previewFile(file)}
+                                                        style={{ 
+                                                            fontSize: '14px', 
+                                                            fontFamily: 'Roboto, sans-serif',
+                                                            cursor: 'pointer',
+                                                            color: '#058464',
+                                                            textDecoration: 'underline',
+                                                            flex: 1
+                                                        }}
+                                                    >
                                                         {file.name}
                                                     </span>
                                                     <button
@@ -510,6 +815,12 @@ export default function FormStep2() {
                                             backgroundColor: '#f9f9f9'
                                         }}
                                     />
+                                    <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                        Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                    </p>
+                                    <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                        کوشش کریں فائل سائز 20MB سے کم ہو
+                                    </p>
                                     {additionalFiles.length > 0 && (
                                         <div style={{ marginTop: '12px' }}>
                                             <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -525,7 +836,17 @@ export default function FormStep2() {
                                                     borderRadius: '6px',
                                                     marginBottom: '6px'
                                                 }}>
-                                                    <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                    <span 
+                                                        onClick={() => previewFile(file)}
+                                                        style={{ 
+                                                            fontSize: '14px', 
+                                                            fontFamily: 'Roboto, sans-serif',
+                                                            cursor: 'pointer',
+                                                            color: '#058464',
+                                                            textDecoration: 'underline',
+                                                            flex: 1
+                                                        }}
+                                                    >
                                                         {file.name}
                                                     </span>
                                                     <button
@@ -604,7 +925,7 @@ export default function FormStep2() {
                             required
                             id="registration-no"
                             value={registrationNo}
-                            onChange={setRegistrationNo}
+                            onChange={handleRegistrationNoChange}
                             inputStyle={{ ...ltrStyle }}
                             error={fieldErrors.registrationNo}
                         />
@@ -614,7 +935,7 @@ export default function FormStep2() {
                             required 
                             id="student-name" 
                             value={studentName} 
-                            onChange={setStudentName}
+                            onChange={handleStudentNameChange}
                             alphabeticOnly
                             error={fieldErrors.studentName}
                         />
@@ -631,7 +952,7 @@ export default function FormStep2() {
                             type="date" 
                             id="dob" 
                             value={dob} 
-                            onChange={setDob} 
+                            onChange={handleDobChange} 
                             inputStyle={{ fontFamily: 'Roboto, sans-serif' }} 
                             error={fieldErrors.dob}
                         />
@@ -641,12 +962,13 @@ export default function FormStep2() {
                             required
                             id="cnic-field"
                             value={cnic}
-                            onChange={setCnic}
+                            onChange={handleCnicChange}
                             maxLength={13}
                             placeholder="xxxxxxxxxxxxx"
                             numericOnly
                             inputStyle={ltrStyle}
                             error={fieldErrors.cnic}
+                            readOnly
                         />
 
                         <FormField
@@ -654,7 +976,7 @@ export default function FormStep2() {
                             required
                             id="phone"
                             value={phone}
-                            onChange={setPhone}
+                            onChange={handlePhoneChange}
                             maxLength={11}
                             placeholder="03xxxxxxxxx"
                             numericOnly
@@ -666,7 +988,7 @@ export default function FormStep2() {
                             label="وٹس ایپ/ٹیلی گرام نمبر"
                             id="whatsapp"
                             value={whatsapp}
-                            onChange={setWhatsapp}
+                            onChange={handleWhatsappChange}
                             maxLength={11}
                             placeholder="03xxxxxxxxx"
                             numericOnly
@@ -688,7 +1010,7 @@ export default function FormStep2() {
                             type="textarea" 
                             id="current-address" 
                             value={currentAddress} 
-                            onChange={setCurrentAddress} 
+                            onChange={handleCurrentAddressChange} 
                             error={fieldErrors.currentAddress}
                         />
 
@@ -698,7 +1020,7 @@ export default function FormStep2() {
                             type="select"
                             id="last-year-grade"
                             value={lastYearGrade}
-                            onChange={setLastYearGrade}
+                            onChange={handleLastYearGradeChange}
                             options={gradeOptions}
                             error={fieldErrors.lastYearGrade}
                         />
@@ -709,7 +1031,7 @@ export default function FormStep2() {
                             type="select"
                             id="next-year-grade"
                             value={nextYearGrade}
-                            onChange={setNextYearGrade}
+                            onChange={handleNextYearGradeChange}
                             options={gradeOptions}
                             error={fieldErrors.nextYearGrade}
                         />
@@ -777,6 +1099,12 @@ export default function FormStep2() {
                                         backgroundColor: '#f9f9f9'
                                     }}
                                 />
+                                <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                </p>
+                                <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                </p>
                                 {certificateFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
                                         <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -792,7 +1120,17 @@ export default function FormStep2() {
                                                 borderRadius: '6px',
                                                 marginBottom: '6px'
                                             }}>
-                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                <span 
+                                                    onClick={() => previewFile(file)}
+                                                    style={{ 
+                                                        fontSize: '14px', 
+                                                        fontFamily: 'Roboto, sans-serif',
+                                                        cursor: 'pointer',
+                                                        color: '#058464',
+                                                        textDecoration: 'underline',
+                                                        flex: 1
+                                                    }}
+                                                >
                                                     {file.name}
                                                 </span>
                                                 <button
@@ -821,6 +1159,9 @@ export default function FormStep2() {
                                 <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
                                     شناختی کارڈ / ب فارم (CNIC/B-Form)
                                 </label>
+                                <p style={{ fontSize: '18px', color: '#058464', marginBottom: '8px' }}>
+                                    درست شناختی کارڈ/ب فارم کی تصویر اپ لوڈ کریں (اگلا/پچھلا)
+                                </p>
                                 <input
                                     type="file"
                                     multiple
@@ -837,6 +1178,12 @@ export default function FormStep2() {
                                         backgroundColor: '#f9f9f9'
                                     }}
                                 />
+                                <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                </p>
+                                <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                </p>
                                 {cnicFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
                                         <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -852,7 +1199,17 @@ export default function FormStep2() {
                                                 borderRadius: '6px',
                                                 marginBottom: '6px'
                                             }}>
-                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                <span 
+                                                    onClick={() => previewFile(file)}
+                                                    style={{ 
+                                                        fontSize: '14px', 
+                                                        fontFamily: 'Roboto, sans-serif',
+                                                        cursor: 'pointer',
+                                                        color: '#058464',
+                                                        textDecoration: 'underline',
+                                                        flex: 1
+                                                    }}
+                                                >
                                                     {file.name}
                                                 </span>
                                                 <button
@@ -897,6 +1254,12 @@ export default function FormStep2() {
                                         backgroundColor: '#f9f9f9'
                                     }}
                                 />
+                                <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                </p>
+                                <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                    کوشش کریں فائل سائز 20MB سے کم ہو
+                                </p>
                                 {additionalFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
                                         <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
@@ -912,7 +1275,17 @@ export default function FormStep2() {
                                                 borderRadius: '6px',
                                                 marginBottom: '6px'
                                             }}>
-                                                <span style={{ fontSize: '14px', fontFamily: 'Roboto, sans-serif' }}>
+                                                <span 
+                                                    onClick={() => previewFile(file)}
+                                                    style={{ 
+                                                        fontSize: '14px', 
+                                                        fontFamily: 'Roboto, sans-serif',
+                                                        cursor: 'pointer',
+                                                        color: '#058464',
+                                                        textDecoration: 'underline',
+                                                        flex: 1
+                                                    }}
+                                                >
                                                     {file.name}
                                                 </span>
                                                 <button

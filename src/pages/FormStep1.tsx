@@ -22,6 +22,31 @@ export default function FormStep1() {
     const [department, setDepartment] = useState(PLACEHOLDER_OPTION);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+    const clearFieldError = (fieldName: string) => {
+        if (fieldErrors[fieldName]) {
+            setFieldErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[fieldName];
+                return newErrors;
+            });
+        }
+    };
+
+    const handleAdmissionTypeChange = (value: string) => {
+        setAdmissionType(value);
+        clearFieldError('admissionType');
+    };
+
+    const handleGenderChange = (value: string) => {
+        setGender(value);
+        clearFieldError('gender');
+    };
+
+    const handleDepartmentChange = (value: string) => {
+        setDepartment(value);
+        clearFieldError('department');
+    };
+
     const handleSubmit = () => {
         const errors: Record<string, string> = {};
 
@@ -56,7 +81,7 @@ export default function FormStep1() {
             </div>
             <div className="App">
                 <div className="form-content" style={{ marginTop: '170px' }}>
-                    <Card headerLeft="پہلا مرحلہ" headerRight="درخواست فارم">
+                    <Card headerLeft="پہلا مرحلہ" headerRight="درخواست فارم" style={{ marginTop: '50px' }}>
                         <p className="description textCenter" style={{ fontSize: '30px', marginBottom: '16px' }}>
                             <span className="red_text" style={{ fontSize: '30px' }}>پہلا مرحلہ :</span>{' '}
                             داخلے کی نوعیت ، جنس اور شعبہ منتخب کریں ۔ (*) ستارے کے نشان والی تمام معلومات پُر کرنا لازمی ہیں ۔
@@ -68,7 +93,7 @@ export default function FormStep1() {
                             type="select"
                             id="admission-type"
                             value={admissionType}
-                            onChange={setAdmissionType}
+                            onChange={handleAdmissionTypeChange}
                             options={admissionTypes}
                             error={fieldErrors.admissionType}
                         />
@@ -79,7 +104,7 @@ export default function FormStep1() {
                             type="select"
                             id="gender"
                             value={gender}
-                            onChange={setGender}
+                            onChange={handleGenderChange}
                             options={genders}
                             error={fieldErrors.gender}
                         />
@@ -90,7 +115,7 @@ export default function FormStep1() {
                             type="select"
                             id="department"
                             value={department}
-                            onChange={setDepartment}
+                            onChange={handleDepartmentChange}
                             options={departments}
                             error={fieldErrors.department}
                         />

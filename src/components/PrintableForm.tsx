@@ -77,7 +77,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                             </div>
                             <div className="form-field-inline">
                                 <span className="field-label">تاریخ پیدائش :</span>
-                                <span className="field-value ltr">{record.dob}</span>
+                                <span className="field-value ltr">{record.dob.split('T')[0]}</span>
                             </div>
                         </div>
 

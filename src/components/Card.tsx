@@ -6,6 +6,7 @@ interface CardProps {
     headerLeft?: string;
     headerRight?: string;
     className?: string;
+    style?: React.CSSProperties;
     bodyStyle?: React.CSSProperties;
 }
 
@@ -15,10 +16,11 @@ export default function Card({
     headerLeft,
     headerRight,
     className = '',
+    style,
     bodyStyle,
 }: CardProps) {
     return (
-        <div className={`card ${className}`}>
+        <div className={`card ${className}`} style={style}>
             {title && <div className="card-title">{title}</div>}
 
             {(headerLeft || headerRight) && (

@@ -17,6 +17,7 @@ interface FormFieldProps {
     alphabeticOnly?: boolean;
     children?: ReactNode;
     error?: string;
+    readOnly?: boolean;
 }
 
 export default function FormField({
@@ -35,6 +36,7 @@ export default function FormField({
     numericOnly = false,
     alphabeticOnly = false,
     error,
+    readOnly = false,
 }: FormFieldProps) {
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -51,7 +53,7 @@ export default function FormField({
         onChange(val);
     };
 
-    const inputClassName = error ? 'error' : '';
+    const inputClassName = `${error ? 'error' : ''} ${readOnly ? 'readonly-field' : ''}`.trim();
 
     return (
         <div className="form-container">
@@ -107,6 +109,7 @@ export default function FormField({
                     maxLength={maxLength}
                     style={inputStyle}
                     className={inputClassName}
+                    readOnly={readOnly}
                 />
             )}
 
