@@ -220,6 +220,8 @@ label .redText {
     vertical-align: middle;
     display: flex;
     align-items: center;
+    word-spacing: 4px;
+    letter-spacing: 0.5px;
 }
 
 .form-container input::placeholder {
@@ -286,6 +288,8 @@ label .redText {
     line-height: 1.8;
     min-height: 100px;
     transition: all 0.3s ease;
+    word-spacing: 4px;
+    letter-spacing: 0.5px;
 }
 
 .required {
@@ -726,12 +730,41 @@ label .redText {
 /* Date input fix */
 input[type="date"] {
     font-family: Roboto, sans-serif;
+    direction: rtl;
+    text-align: right;
+    position: relative;
+    padding-right: 16px !important;
+    padding-left: 605px !important;
+}
+
+/* Position calendar icon on the right */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    margin-left: 4px;
 }
 
 /* Disabled input */
 input[type=text]:disabled {
     background: #ddd;
     opacity: .4;
+}
+
+/* Read-only field styling */
+.form-container input.readonly-field {
+    background-color: #f5f5f5 !important;
+    cursor: not-allowed;
+    color: #666;
+}
+
+.form-container input.readonly-field:focus {
+    border-color: #e0e0e0 !important;
+    box-shadow: none !important;
+}
+
+.form-container input.readonly-field:hover {
+    border-color: #e0e0e0 !important;
 }
 
 /* ==================== DATA TABLE STYLES ==================== */
@@ -1503,7 +1536,7 @@ input[type=text]:disabled {
 .field-value.ltr {
     font-family: Roboto, sans-serif;
     direction: ltr;
-    text-align: left;
+    text-align: right;
 }
 
 .form-signatures {
@@ -1745,7 +1778,7 @@ input[type=text]:disabled {
 .field-value.ltr {
     font-family: Roboto, sans-serif;
     direction: ltr;
-    text-align: left;
+    text-align: right;
 }
 
 .existing-record-footer {
@@ -1979,6 +2012,18 @@ input[type=text]:disabled {
     }
 }
 
+/* Slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* Scale in */
 @keyframes scaleIn {
     from {
@@ -2185,7 +2230,7 @@ label {
 .toast-container {
     position: fixed;
     top: 160px;
-    left: 20px;
+    right: 20px;
     z-index: 9999;
     display: flex;
     flex-direction: column;
@@ -2201,7 +2246,7 @@ label {
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     background: #fff;
-    animation: slideInLeft 0.3s ease-out;
+    animation: slideInRight 0.3s ease-out;
     direction: ltr;
     min-width: 320px;
     border-left: 4px solid;
@@ -2340,8 +2385,8 @@ label {
 
 @media screen and (max-width: 576px) {
     .toast-container {
-        left: 10px;
         right: 10px;
+        left: 10px;
         max-width: calc(100% - 20px);
     }
 
@@ -2504,6 +2549,105 @@ label {
         padding: 14px 32px 10px 12px;
         background-position: left 10px center;
         background-size: 16px;
+    }
+
+    /* Mobile date input styles */
+    input[type="date"] {
+        padding-right: 45px !important;
+        padding-left: 12px !important;
+        font-size: 16px;
+        height: 56px;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 10px;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    /* Mobile responsive button styles */
+    .submit-button {
+        width: 100%;
+        padding: 14px 20px 6px;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .button-icon-circle {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .button-icon-circle svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Instructions page button layout - stack vertically on mobile */
+    .instructions-button-container.row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        justify-content: center !important;
+    }
+
+    .instructions-button-container p {
+        text-align: center;
+        margin-bottom: 0;
+        order: 1;
+    }
+
+    .instructions-button-container button {
+        order: 2;
+    }
+
+    /* Home page button - center on mobile */
+    .home-button-container.row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        justify-content: center !important;
+    }
+
+    .home-button-container p {
+        text-align: center;
+        margin-bottom: 0;
+        order: 1;
+    }
+
+    .home-button-container button {
+        order: 2;
+    }
+}
+
+/* Desktop styles for instructions button - align left */
+@media screen and (min-width: 577px) {
+    .instructions-button-container.row {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .home-button-container.row {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .home-button-container p {
+        text-align: right;
+        order: 0;
+    }
+
+    .home-button-container button {
+        order: 0;
     }
 
     .form-container select option {

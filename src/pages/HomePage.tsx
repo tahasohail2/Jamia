@@ -68,7 +68,7 @@ export default function HomePage() {
 
                         <hr className="divider" />
 
-                        <div className="flex row alignCenter" style={{ gap: '16px', marginTop: '16px' }}>
+                        <div className="flex row home-button-container" style={{ gap: '16px', marginTop: '16px', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <p className="description">قواعد و ضوابط پڑھ لیے ہیں تو فارم پُر کریں ۔</p>
                             <button
                                 className="submit-button"

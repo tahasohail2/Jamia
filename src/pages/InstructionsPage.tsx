@@ -36,7 +36,7 @@ export default function InstructionsPage() {
 
                         <hr className="divider" />
 
-                        <div className="flex row alignCenter" style={{ gap: '16px', marginTop: '16px' }}>
+                        <div className="flex row instructions-button-container" style={{ gap: '16px', marginTop: '16px', justifyContent: 'flex-start' }}>
                             <p className="description">ہدایات پڑھ لی ہیں تو فارم پُر کرتے ہیں ۔</p>
                             <button
                                 className="submit-button"
