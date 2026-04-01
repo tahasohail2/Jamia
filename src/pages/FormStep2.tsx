@@ -338,7 +338,7 @@ export default function FormStep2() {
             // Check if adding new files exceeds 20MB limit
             const newTotalSize = newFiles.reduce((sum, file) => sum + file.size, 0);
             if (currentTotalSize + newTotalSize > maxSize) {
-                showToast('اضافی دستاویزات کی کل سائز 20MB سے زیادہ نہیں ہو سکتی', 'error');
+                showToast('تصویر کی کل سائز 20MB سے زیادہ نہیں ہو سکتی', 'error');
                 e.target.value = '';
                 return;
             }
@@ -357,6 +357,8 @@ export default function FormStep2() {
 
             if (newFiles.length > 0) {
                 setAdditionalFiles(prev => [...prev, ...newFiles]);
+                // Clear picture error when file is uploaded
+                clearFieldError('picture');
             }
 
             // Reset input value
@@ -442,6 +444,12 @@ export default function FormStep2() {
         if (!currentAddress) {
             errors.currentAddress = 'موجودہ پتا درج کریں';
             showToast('موجودہ پتا درج کریں', 'error');
+        }
+        
+        // Validate picture upload (mandatory)
+        if (additionalFiles.length === 0) {
+            errors.picture = 'تصویر اپ لوڈ کرنا لازمی ہے';
+            showToast('تصویر اپ لوڈ کرنا لازمی ہے', 'error');
         }
 
         if (isNew) {
@@ -695,6 +703,86 @@ export default function FormStep2() {
                                 <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#058464' }}>
                                     دستاویزات اپ لوڈ کریں (اختیاری)
                                 </h3>
+                                {/* 1. Picture */}
+                                <div style={{ marginBottom: '24px' }}>
+                                    <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                        تصویر (Picture) <span className="required">*</span>
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleAdditionalUpload}
+                                        style={{
+                                            display: 'block',
+                                            width: '100%',
+                                            padding: '12px',
+                                            border: fieldErrors.picture ? '2px dashed #dc3545' : '2px dashed #058464',
+                                            borderRadius: '12px',
+                                            fontSize: '16px',
+                                            cursor: 'pointer',
+                                            backgroundColor: '#f9f9f9'
+                                        }}
+                                    />
+                                    <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                        Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif
+                                    </p>
+                                    <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                        زیادہ سے زیادہ سائز 20MB ہے
+                                    </p>
+                                    {fieldErrors.picture && (
+                                        <div className="form-field-error" style={{ marginTop: '8px' }}>
+                                            {fieldErrors.picture}
+                                        </div>
+                                    )}
+                                    {additionalFiles.length > 0 && (
+                                        <div style={{ marginTop: '12px' }}>
+                                            <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                                منتخب شدہ فائلیں: {additionalFiles.length}
+                                            </p>
+                                            {additionalFiles.map((file, index) => (
+                                                <div key={index} style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    justifyContent: 'space-between',
+                                                    padding: '6px 10px',
+                                                    backgroundColor: '#f0f0f0',
+                                                    borderRadius: '6px',
+                                                    marginBottom: '6px'
+                                                }}>
+                                                    <span 
+                                                        onClick={() => previewFile(file)}
+                                                        style={{ 
+                                                            fontSize: '14px', 
+                                                            fontFamily: 'Roboto, sans-serif',
+                                                            cursor: 'pointer',
+                                                            color: '#058464',
+                                                            textDecoration: 'underline',
+                                                            flex: 1
+                                                        }}
+                                                    >
+                                                        {file.name}
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeAdditionalFile(index)}
+                                                        style={{
+                                                            background: '#dc3545',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '4px',
+                                                            padding: '3px 10px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        حذف
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* 1. Certificates */}
                                 <div style={{ marginBottom: '24px' }}>
@@ -772,7 +860,7 @@ export default function FormStep2() {
                                     )}
                                 </div>
 
-                                {/* 2. CNIC/B-Form */}
+                                {/* 3. CNIC/B-Form */}
                                 <div style={{ marginBottom: '24px' }}>
                                     <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
                                         شناختی کارڈ / ب فارم (CNIC/B-Form)
@@ -851,81 +939,7 @@ export default function FormStep2() {
                                     )}
                                 </div>
 
-                                {/* 3. Additional Documents */}
-                                <div style={{ marginBottom: '24px' }}>
-                                    <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
-                                        اضافی دستاویزات (Additional&nbsp;Documents)
-                                    </label>
-                                    <input
-                                        type="file"
-                                        multiple
-                                        accept="image/*,.pdf"
-                                        onChange={handleAdditionalUpload}
-                                        style={{
-                                            display: 'block',
-                                            width: '100%',
-                                            padding: '12px',
-                                            border: '2px dashed #058464',
-                                            borderRadius: '12px',
-                                            fontSize: '16px',
-                                            cursor: 'pointer',
-                                            backgroundColor: '#f9f9f9'
-                                        }}
-                                    />
-                                    <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
-                                        Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
-                                    </p>
-                                    <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                        زیادہ سے زیادہ سائز 20MB ہے
-                                    </p>
-                                    {additionalFiles.length > 0 && (
-                                        <div style={{ marginTop: '12px' }}>
-                                            <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
-                                                منتخب شدہ فائلیں: {additionalFiles.length}
-                                            </p>
-                                            {additionalFiles.map((file, index) => (
-                                                <div key={index} style={{ 
-                                                    display: 'flex', 
-                                                    alignItems: 'center', 
-                                                    justifyContent: 'space-between',
-                                                    padding: '6px 10px',
-                                                    backgroundColor: '#f0f0f0',
-                                                    borderRadius: '6px',
-                                                    marginBottom: '6px'
-                                                }}>
-                                                    <span 
-                                                        onClick={() => previewFile(file)}
-                                                        style={{ 
-                                                            fontSize: '14px', 
-                                                            fontFamily: 'Roboto, sans-serif',
-                                                            cursor: 'pointer',
-                                                            color: '#058464',
-                                                            textDecoration: 'underline',
-                                                            flex: 1
-                                                        }}
-                                                    >
-                                                        {file.name}
-                                                    </span>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeAdditionalFile(index)}
-                                                        style={{
-                                                            background: '#dc3545',
-                                                            color: 'white',
-                                                            border: 'none',
-                                                            borderRadius: '4px',
-                                                            padding: '3px 10px',
-                                                            cursor: 'pointer',
-                                                            fontSize: '12px'
-                                                        }}
-                                                    >
-                                                        حذف
-                                                    </button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                                
                             </div>
 
                             <div className="form-footer" style={{ marginTop: '48px' }}>
@@ -1297,21 +1311,21 @@ export default function FormStep2() {
                                 )}
                             </div>
 
-                            {/* 3. Additional Documents */}
+                            {/* 3. Picture */}
                             <div style={{ marginBottom: '24px' }}>
                                 <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
-                                    اضافی دستاویزات (Additional&nbsp;Documents)
+                                    تصویر (Picture) <span className="required">*</span>
                                 </label>
                                 <input
                                     type="file"
                                     multiple
-                                    accept="image/*,.pdf"
+                                    accept="image/*"
                                     onChange={handleAdditionalUpload}
                                     style={{
                                         display: 'block',
                                         width: '100%',
                                         padding: '12px',
-                                        border: '2px dashed #058464',
+                                        border: fieldErrors.picture ? '2px dashed #dc3545' : '2px dashed #058464',
                                         borderRadius: '12px',
                                         fontSize: '16px',
                                         cursor: 'pointer',
@@ -1319,11 +1333,16 @@ export default function FormStep2() {
                                     }}
                                 />
                                 <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
-                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif, .pdf
+                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif
                                 </p>
                                 <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
                                     زیادہ سے زیادہ سائز 20MB ہے
                                 </p>
+                                {fieldErrors.picture && (
+                                    <div className="form-field-error" style={{ marginTop: '8px' }}>
+                                        {fieldErrors.picture}
+                                    </div>
+                                )}
                                 {additionalFiles.length > 0 && (
                                     <div style={{ marginTop: '12px' }}>
                                         <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
