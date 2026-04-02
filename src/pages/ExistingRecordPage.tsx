@@ -15,7 +15,16 @@ export default function ExistingRecordPage() {
         window.scrollTo(0, 0);
     }, []);
 
+    // Debug logging
+    useEffect(() => {
+        console.log('ExistingRecordPage - location.state:', location.state);
+        console.log('ExistingRecordPage - record:', record);
+        console.log('ExistingRecordPage - additionalUrls:', record?.additionalUrls);
+        console.log('ExistingRecordPage - first picture URL:', record?.additionalUrls?.[0]);
+    }, [location.state, record]);
+
     if (!record) {
+        console.error('No record data found in location.state');
         navigate('/');
         return null;
     }
@@ -141,6 +150,43 @@ export default function ExistingRecordPage() {
                             </div>
 
                             <div className="existing-record-meta">
+                                {/* Profile Picture */}
+                                <div style={{ 
+                                    width: '90px', 
+                                    height: '110px', 
+                                    border: '2px solid #000',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    overflow: 'hidden',
+                                    backgroundColor: '#f5f5f5',
+                                    marginBottom: '8px'
+                                }}>
+                                    {record.additionalUrls && record.additionalUrls.length > 0 ? (
+                                        <img 
+                                            key={record.additionalUrls[0]} 
+                                            src={record.additionalUrls[0]} 
+                                            alt="Profile" 
+                                            style={{ 
+                                                width: '100%', 
+                                                height: '100%', 
+                                                objectFit: 'cover' 
+                                            }}
+                                            onLoad={() => console.log('Image loaded:', record.additionalUrls[0])}
+                                            onError={(e) => console.error('Image load error:', e, record.additionalUrls[0])}
+                                        />
+                                    ) : (
+                                        <div style={{ 
+                                            textAlign: 'center', 
+                                            color: '#999',
+                                            fontSize: '14px',
+                                            fontWeight: 600
+                                        }}>
+                                            تصویر
+                                        </div>
+                                    )}
+                                </div>
+                                
                                 <div className="meta-item">
                                     <span className="meta-label">رول نمبر : </span>
                                     <span className="meta-value">
@@ -310,6 +356,19 @@ export default function ExistingRecordPage() {
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="7 10 12 15 17 10"></polyline>
                                         <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button 
+                                className="submit-button" 
+                                style={{ backgroundColor: '#ff9800' }}
+                                onClick={() => navigate('/edit-picture', { state: { record } })}
+                            >
+                                تصویر میں تبدیلی
+                                <span className="button-icon-circle">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                     </svg>
                                 </span>
                             </button>
