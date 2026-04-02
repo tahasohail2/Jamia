@@ -9,6 +9,7 @@ import SuccessPage from './pages/SuccessPage';
 import RecordsPage from './pages/RecordsPage';
 import RecordDetailPage from './pages/RecordDetailPage';
 import ExistingRecordPage from './pages/ExistingRecordPage';
+import EditPicturePage from './pages/EditPicturePage';
 
 export default function App() {
     return (
@@ -18,6 +19,7 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/cnic" element={<CnicPage />} />
                     <Route path="/existing-record" element={<ExistingRecordPage />} />
+                    <Route path="/edit-picture" element={<EditPicturePage />} />
                     <Route path="/instructions" element={<InstructionsPage />} />
                     <Route path="/form/step1" element={<FormStep1 />} />
                     <Route path="/form/step2" element={<FormStep2 />} />

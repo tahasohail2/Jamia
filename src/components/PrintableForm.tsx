@@ -5,7 +5,29 @@ interface PrintableFormProps {
 }
 
 export default function PrintableForm({ record }: PrintableFormProps) {
+    // Validate record exists
+    if (!record) {
+        return <div>No record data available</div>;
+    }
+
     const isNew = record.admissionType === 'نیا داخلہ';
+    
+    // Safe date formatting function
+    const formatDate = (dateString: string | undefined) => {
+        if (!dateString) return '---';
+        try {
+            // If it's an ISO timestamp, extract just the date part
+            if (dateString.includes('T')) {
+                return dateString.split('T')[0];
+            }
+            return dateString;
+        } catch {
+            return '---';
+        }
+    };
+
+    // Safe value accessor
+    const safeValue = (value: any) => value || '___________';
     
     // Get current date in DD-MM-YYYY format
     const getCurrentDate = () => {
@@ -35,13 +57,28 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                         </div>
 
                         <div className="form-meta-info">
-                            <div className="meta-box">
-                                <span className="meta-label">رول نمبر :</span>
-                                <span className="meta-value">{record.registrationNo || '---'}</span>
+                            <div className="profile-picture-container">
+                                {record.additionalUrls && record.additionalUrls.length > 0 ? (
+                                    <img 
+                                        src={record.additionalUrls[0]} 
+                                        alt="Profile" 
+                                        className="profile-picture"
+                                    />
+                                ) : (
+                                    <div className="profile-picture-placeholder">
+                                        <span>تصویر</span>
+                                    </div>
+                                )}
                             </div>
-                            <div className="meta-box">
-                                <span className="meta-label">تاریخ :</span>
-                                <span className="meta-value">{getCurrentDate()}</span>
+                            <div className="meta-boxes">
+                                <div className="meta-box">
+                                    <span className="meta-label">رول نمبر :</span>
+                                    <span className="meta-value">{record.registrationNo || '---'}</span>
+                                </div>
+                                <div className="meta-box">
+                                    <span className="meta-label">تاریخ :</span>
+                                    <span className="meta-value">{getCurrentDate()}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,11 +110,11 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                             </div>
                             <div className="form-field-inline">
                                 <span className="field-label">والد :</span>
-                                <span className="field-value">{record.fatherName || '___________'}</span>
+                                <span className="field-value">{safeValue(record.fatherName)}</span>
                             </div>
                             <div className="form-field-inline">
                                 <span className="field-label">تاریخ پیدائش :</span>
-                                <span className="field-value ltr">{record.dob.split('T')[0]}</span>
+                                <span className="field-value ltr">{formatDate(record.dob)}</span>
                             </div>
                         </div>
 
@@ -114,7 +151,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                             <div className="form-row">
                                 <div className="form-field-inline">
                                     <span className="field-label">دینی / عصری تعلیم :</span>
-                                    <span className="field-value">{record.educationType || '___________'}</span>
+                                    <span className="field-value">{safeValue(record.educationType)}</span>
                                 </div>
                             </div>
                         )}
@@ -147,7 +184,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                                 <div className="form-row">
                                     <div className="form-field-block">
                                         <span className="field-label">سابقہ ادارہ/سکول کا نام :</span>
-                                        <span className="field-value">{record.previousEducation || '___________'}</span>
+                                        <span className="field-value">{safeValue(record.previousEducation)}</span>
                                     </div>
                                 </div>
                             </>
@@ -179,7 +216,7 @@ export default function PrintableForm({ record }: PrintableFormProps) {
                         <div className="form-row">
                             <div className="form-field-inline">
                                 <span className="field-label">سرپرست کا نام/والد کا نام :</span>
-                                <span className="field-value">{record.fatherName || '___________'}</span>
+                                <span className="field-value">{safeValue(record.fatherName)}</span>
                             </div>
                         </div>
 

@@ -82,6 +82,15 @@ export const api = {
     });
     await handleResponse(response);
   },
+
+  // Update picture for a record
+  updateRecordPicture: async (id: number, formData: FormData): Promise<SubmittedRecord> => {
+    const response = await fetch(`${API_BASE_URL}/api/records/${id}/picture`, {
+      method: 'PATCH',
+      body: formData,
+    });
+    return handleResponse(response);
+  },
 };
 
 export { ApiError };

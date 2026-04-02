@@ -730,6 +730,46 @@ export default function FormStep2() {
                                     <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
                                         زیادہ سے زیادہ سائز 20MB ہے
                                     </p>
+                                    
+                                    {/* Photo Instructions */}
+                                    <div style={{ 
+                                        marginTop: '16px', 
+                                        padding: '16px', 
+                                        backgroundColor: '#f0f8ff', 
+                                        borderRadius: '8px',
+                                        border: '1px solid #058464'
+                                    }}>
+                                        <h4 style={{ fontSize: '20px', color: '#058464', marginBottom: '12px', fontWeight: 'bold' }}>
+                                            ہدایات برائے تصویر کشی ⏪ برائے امیدوار ⏩
+                                        </h4>
+                                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 تصویر پاسپورٹ سائز میں ہو۔
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 تصویر سامنے سے بنائیں اور اضافی منظر کو کراپ کر دیں۔
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 عمامہ شریف زیب تن کر کے تصویر بنائیں۔
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 نیلے بیک گراؤنڈ کے ساتھ تصویر بنائیں
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 فلٹرز کا استعمال نہ کریں۔
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 تصویر چشمہ اتار کر بنائیں
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                                🟡 تصویر واضح اور اچھی کوالٹی میں بنائیں۔
+                                            </li>
+                                            <li style={{ fontSize: '16px', marginBottom: '0', lineHeight: '1.6' }}>
+                                                🟡 تصویر بنواتے وقت قمیض کے بٹن بند رکھیں۔
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
                                     {fieldErrors.picture && (
                                         <div className="form-field-error" style={{ marginTop: '8px' }}>
                                             {fieldErrors.picture}
@@ -1156,7 +1196,128 @@ export default function FormStep2() {
                                 دستاویزات اپ لوڈ کریں (اختیاری)
                             </h3>
 
-                            {/* 1. Certificates */}
+                            {/* 1. Picture */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
+                                    تصویر (Picture) <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleAdditionalUpload}
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: fieldErrors.picture ? '2px dashed #dc3545' : '2px dashed #058464',
+                                        borderRadius: '12px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9'
+                                    }}
+                                />
+                                <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
+                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif
+                                </p>
+                                <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
+                                    زیادہ سے زیادہ سائز 20MB ہے
+                                </p>
+                                
+                                {/* Photo Instructions */}
+                                <div style={{ 
+                                    marginTop: '16px', 
+                                    padding: '16px', 
+                                    backgroundColor: '#f0f8ff', 
+                                    borderRadius: '8px',
+                                    border: '1px solid #058464'
+                                }}>
+                                    <h4 style={{ fontSize: '20px', color: '#058464', marginBottom: '12px', fontWeight: 'bold' }}>
+                                        ہدایات برائے تصویر کشی ⏪ برائے امیدوار ⏩
+                                    </h4>
+                                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 تصویر پاسپورٹ سائز میں ہو۔
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 تصویر سامنے سے بنائیں اور اضافی منظر کو کراپ کر دیں۔
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 عمامہ شریف زیب تن کر کے تصویر بنائیں۔
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 نیلے بیک گراؤنڈ کے ساتھ تصویر بنائیں
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 فلٹرز کا استعمال نہ کریں۔
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 تصویر چشمہ اتار کر بنائیں
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '8px', lineHeight: '1.6' }}>
+                                            🟡 تصویر واضح اور اچھی کوالٹی میں بنائیں۔
+                                        </li>
+                                        <li style={{ fontSize: '16px', marginBottom: '0', lineHeight: '1.6' }}>
+                                            🟡 تصویر بنواتے وقت قمیض کے بٹن بند رکھیں۔
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                {fieldErrors.picture && (
+                                    <div className="form-field-error" style={{ marginTop: '8px' }}>
+                                        {fieldErrors.picture}
+                                    </div>
+                                )}
+                                {additionalFiles.length > 0 && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
+                                            منتخب شدہ فائلیں: {additionalFiles.length}
+                                        </p>
+                                        {additionalFiles.map((file, index) => (
+                                            <div key={index} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                justifyContent: 'space-between',
+                                                padding: '6px 10px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '6px',
+                                                marginBottom: '6px'
+                                            }}>
+                                                <span 
+                                                    onClick={() => previewFile(file)}
+                                                    style={{ 
+                                                        fontSize: '14px', 
+                                                        fontFamily: 'Roboto, sans-serif',
+                                                        cursor: 'pointer',
+                                                        color: '#058464',
+                                                        textDecoration: 'underline',
+                                                        flex: 1
+                                                    }}
+                                                >
+                                                    {file.name}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeAdditionalFile(index)}
+                                                    style={{
+                                                        background: '#dc3545',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '4px',
+                                                        padding: '3px 10px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    حذف
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 2. Certificates */}
                             <div style={{ marginBottom: '24px' }}>
                                 <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
                                     اسناد / سرٹیفیکیٹ (Certificates)
@@ -1232,7 +1393,7 @@ export default function FormStep2() {
                                 )}
                             </div>
 
-                            {/* 2. CNIC/B-Form */}
+                            {/* 3. CNIC/B-Form */}
                             <div style={{ marginBottom: '24px' }}>
                                 <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
                                     شناختی کارڈ / ب فارم (CNIC/B-Form)
@@ -1311,86 +1472,7 @@ export default function FormStep2() {
                                 )}
                             </div>
 
-                            {/* 3. Picture */}
-                            <div style={{ marginBottom: '24px' }}>
-                                <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
-                                    تصویر (Picture) <span className="required">*</span>
-                                </label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    onChange={handleAdditionalUpload}
-                                    style={{
-                                        display: 'block',
-                                        width: '100%',
-                                        padding: '12px',
-                                        border: fieldErrors.picture ? '2px dashed #dc3545' : '2px dashed #058464',
-                                        borderRadius: '12px',
-                                        fontSize: '16px',
-                                        cursor: 'pointer',
-                                        backgroundColor: '#f9f9f9'
-                                    }}
-                                />
-                                <p style={{ fontSize: '14px', color: '#666', marginTop: '6px', fontFamily: 'Roboto, sans-serif' }}>
-                                    Allowed formats: .jpg / .jpeg, .png, .gif, .webp, .jfif, .svg, .heic / .heif
-                                </p>
-                                <p style={{ fontSize: '16px', color: '#666', marginTop: '4px' }}>
-                                    زیادہ سے زیادہ سائز 20MB ہے
-                                </p>
-                                {fieldErrors.picture && (
-                                    <div className="form-field-error" style={{ marginTop: '8px' }}>
-                                        {fieldErrors.picture}
-                                    </div>
-                                )}
-                                {additionalFiles.length > 0 && (
-                                    <div style={{ marginTop: '12px' }}>
-                                        <p style={{ fontSize: '16px', marginBottom: '8px', color: '#058464' }}>
-                                            منتخب شدہ فائلیں: {additionalFiles.length}
-                                        </p>
-                                        {additionalFiles.map((file, index) => (
-                                            <div key={index} style={{ 
-                                                display: 'flex', 
-                                                alignItems: 'center', 
-                                                justifyContent: 'space-between',
-                                                padding: '6px 10px',
-                                                backgroundColor: '#f0f0f0',
-                                                borderRadius: '6px',
-                                                marginBottom: '6px'
-                                            }}>
-                                                <span 
-                                                    onClick={() => previewFile(file)}
-                                                    style={{ 
-                                                        fontSize: '14px', 
-                                                        fontFamily: 'Roboto, sans-serif',
-                                                        cursor: 'pointer',
-                                                        color: '#058464',
-                                                        textDecoration: 'underline',
-                                                        flex: 1
-                                                    }}
-                                                >
-                                                    {file.name}
-                                                </span>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeAdditionalFile(index)}
-                                                    style={{
-                                                        background: '#dc3545',
-                                                        color: 'white',
-                                                        border: 'none',
-                                                        borderRadius: '4px',
-                                                        padding: '3px 10px',
-                                                        cursor: 'pointer',
-                                                        fontSize: '12px'
-                                                    }}
-                                                >
-                                                    حذف
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            
                         </div>
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>

@@ -98,6 +98,91 @@ export default function SuccessPage() {
                                 </span>
                             </div>
                             <div className="card-body" style={{ padding: '32px' }}>
+                                {/* Profile Picture and Meta Info Section */}
+                                <div style={{ 
+                                    display: 'flex', 
+                                    justifyContent: 'space-between', 
+                                    alignItems: 'flex-start',
+                                    marginBottom: '24px',
+                                    paddingBottom: '16px',
+                                    borderBottom: '2px solid #e0e0e0'
+                                }}>
+                                    {/* Profile Picture */}
+                                    <div style={{ 
+                                        width: '120px', 
+                                        height: '150px', 
+                                        border: '3px solid #058464',
+                                        borderRadius: '8px',
+                                        overflow: 'hidden',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#f5f5f5'
+                                    }}>
+                                        {record.additionalUrls && record.additionalUrls.length > 0 ? (
+                                            <img 
+                                                src={record.additionalUrls[0]} 
+                                                alt="Profile" 
+                                                style={{ 
+                                                    width: '100%', 
+                                                    height: '100%', 
+                                                    objectFit: 'cover' 
+                                                }}
+                                            />
+                                        ) : (
+                                            <div style={{ 
+                                                textAlign: 'center', 
+                                                color: '#999',
+                                                fontSize: '18px',
+                                                fontWeight: 600
+                                            }}>
+                                                تصویر
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Meta Info Boxes */}
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        gap: '12px',
+                                        alignItems: 'flex-end'
+                                    }}>
+                                        <div style={{ 
+                                            border: '2px solid #058464',
+                                            borderRadius: '8px',
+                                            padding: '8px 16px',
+                                            backgroundColor: 'white',
+                                            minWidth: '200px'
+                                        }}>
+                                            <span style={{ fontSize: '16px', fontWeight: 600 }}>رول نمبر : </span>
+                                            <span style={{ 
+                                                fontSize: '16px', 
+                                                fontFamily: 'Roboto, sans-serif',
+                                                direction: 'ltr'
+                                            }}>
+                                                {record.registrationNo || '---'}
+                                            </span>
+                                        </div>
+                                        <div style={{ 
+                                            border: '2px solid #058464',
+                                            borderRadius: '8px',
+                                            padding: '8px 16px',
+                                            backgroundColor: 'white',
+                                            minWidth: '200px'
+                                        }}>
+                                            <span style={{ fontSize: '16px', fontWeight: 600 }}>تاریخ : </span>
+                                            <span style={{ 
+                                                fontSize: '16px', 
+                                                fontFamily: 'Roboto, sans-serif',
+                                                direction: 'ltr'
+                                            }}>
+                                                {new Date(record.submittedAt).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* Basic Information */}
                                 <div style={{ marginBottom: '24px' }}>
                                     <p className="description" style={{ fontSize: '24px', marginBottom: '12px' }}>
@@ -295,7 +380,7 @@ export default function SuccessPage() {
                                         {record.additionalUrls && record.additionalUrls.length > 0 && (
                                             <div style={{ marginBottom: '16px' }}>
                                                 <p style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>
-                                                    اضافی دستاویزات:
+                                                    تصویر:
                                                 </p>
                                                 {record.additionalUrls.map((url, idx) => (
                                                     <a
@@ -315,7 +400,7 @@ export default function SuccessPage() {
                                                             fontFamily: 'Roboto, sans-serif'
                                                         }}
                                                     >
-                                                        📎 Document {idx + 1}
+                                                        📷 Picture {idx + 1}
                                                     </a>
                                                 ))}
                                             </div>

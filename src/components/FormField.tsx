@@ -38,6 +38,23 @@ export default function FormField({
     error,
     readOnly = false,
 }: FormFieldProps) {
+    // Format date value to yyyy-MM-dd format for date inputs
+    const formatDateValue = (val: string, inputType: string) => {
+        if (inputType === 'date' && val) {
+            try {
+                // If it's an ISO timestamp, extract just the date part
+                if (val.includes('T')) {
+                    return val.split('T')[0];
+                }
+                // If it's already in the correct format, return as is
+                return val;
+            } catch {
+                return val;
+            }
+        }
+        return val;
+    };
+
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
@@ -54,6 +71,7 @@ export default function FormField({
     };
 
     const inputClassName = `${error ? 'error' : ''} ${readOnly ? 'readonly-field' : ''}`.trim();
+    const formattedValue = formatDateValue(value, type);
 
     return (
         <div className="form-container">
@@ -71,10 +89,11 @@ export default function FormField({
             {type === 'select' ? (
                 <select 
                     id={id} 
-                    value={value} 
+                    value={formattedValue} 
                     onChange={handleInputChange} 
                     style={inputStyle}
                     className={inputClassName}
+                    disabled={readOnly}
                 >
                     {options.map((opt) => (
                         <option key={opt} value={opt}>
@@ -85,10 +104,11 @@ export default function FormField({
             ) : type === 'textarea' ? (
                 <textarea
                     id={id}
-                    value={value}
+                    value={formattedValue}
                     onChange={handleInputChange}
                     rows={rows}
                     className={inputClassName}
+                    readOnly={readOnly}
                     style={{
                         width: '100%',
                         resize: 'vertical',
@@ -103,7 +123,7 @@ export default function FormField({
                 <input
                     type={type}
                     id={id}
-                    value={value}
+                    value={formattedValue}
                     onChange={handleInputChange}
                     placeholder={placeholder}
                     maxLength={maxLength}
