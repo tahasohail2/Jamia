@@ -700,9 +700,9 @@ export default function FormStep2() {
 
                             {/* Document Upload Section */}
                             <div style={{ marginTop: '32px' }}>
-                                <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#058464' }}>
+                                {/* <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#058464' }}>
                                     دستاویزات اپ لوڈ کریں (اختیاری)
-                                </h3>
+                                </h3> */}
                                 {/* 1. Picture */}
                                 <div style={{ marginBottom: '24px' }}>
                                     <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontSize: '20px' }}>
