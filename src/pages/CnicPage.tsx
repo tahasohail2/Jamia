@@ -61,13 +61,17 @@ export default function CnicPage() {
             <div className="App">
                 <div className="form-content">
                     <Card title="شناختی کارڈ / ب فارم نمبر فراہم کریں">
-                        <p className="description textCenter" style={{ fontSize: '32px', marginBottom: '32px' }}>
+                        <p className="description textCenter" style={{ fontSize: '32px', marginBottom: '16px' }}>
                             امیدوار اپنا{' '}
                             <span className="red_text" style={{ fontSize: '32px' }}>شناختی کارڈ نمبر</span>{' '}
                             یا{' '}
                             <span className="red_text" style={{ fontSize: '32px' }}>ب فارم نمبر</span>{' '}
                             درج کریں ۔{' '}
                             <span className="green_text" style={{ fontSize: '32px' }}>(بغیر ڈیش کے)</span>
+                        </p>
+                        
+                        <p className="description textCenter" style={{ fontSize: '22px', marginBottom: '32px', color: '#058464' }}>
+                            امیدوار اگر پہلے فارم پر کر چکا ہے تو پر شدہ فارم خود لوڈ ہو جائے گا۔
                         </p>
 
                         <div className="form-container">
