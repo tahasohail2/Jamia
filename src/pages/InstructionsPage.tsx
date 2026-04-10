@@ -1,9 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
+import AdmissionClosedBanner from '../components/AdmissionClosedBanner';
+import { useAdmissionStatus } from '../hooks/useAdmissionStatus';
 
 export default function InstructionsPage() {
     const navigate = useNavigate();
+    const { status, checking } = useAdmissionStatus();
+    const isGated = checking || !status?.is_admission_open;
 
     return (
         <>
@@ -42,16 +46,31 @@ export default function InstructionsPage() {
                                 className="submit-button"
                                 id="btn-start-form"
                                 onClick={() => navigate('/form/step1')}
+                                disabled={isGated}
                             >
-                                فارم پُر کریں
-                                <span className="button-icon-circle">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                                        <polyline points="12 19 5 12 12 5"></polyline>
-                                    </svg>
-                                </span>
+                                {checking ? (
+                                    <span className="btn-spinner" />
+                                ) : isGated ? (
+                                    'داخلہ بند ہے'
+                                ) : (
+                                    <>
+                                        فارم پُر کریں
+                                        <span className="button-icon-circle">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                                <polyline points="12 19 5 12 12 5"></polyline>
+                                            </svg>
+                                        </span>
+                                    </>
+                                )}
                             </button>
                         </div>
+
+                        {!checking && !status?.is_admission_open && (
+                            <div style={{ marginTop: '32px' }}>
+                                <AdmissionClosedBanner message={status?.message ?? ''} />
+                            </div>
+                        )}
                     </Card>
                 </div>
             </div>
