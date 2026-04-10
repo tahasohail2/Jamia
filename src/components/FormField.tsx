@@ -15,6 +15,7 @@ interface FormFieldProps {
     inputStyle?: React.CSSProperties;
     numericOnly?: boolean;
     alphabeticOnly?: boolean;
+    urduOnly?: boolean;
     children?: ReactNode;
     error?: string;
     readOnly?: boolean;
@@ -35,6 +36,7 @@ export default function FormField({
     inputStyle = {},
     numericOnly = false,
     alphabeticOnly = false,
+    urduOnly = false,
     error,
     readOnly = false,
 }: FormFieldProps) {
@@ -62,9 +64,11 @@ export default function FormField({
         if (numericOnly) {
             // Only allow numbers
             val = val.replace(/[^0-9]/g, '');
+        } else if (urduOnly) {
+            // Only allow Urdu/Arabic script characters and spaces
+            val = val.replace(/[^\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\s]/g, '');
         } else if (alphabeticOnly) {
             // Only allow letters, spaces, and Urdu characters
-            // This regex allows: English letters, spaces, Urdu/Arabic characters
             val = val.replace(/[0-9]/g, '');
         }
         onChange(val);

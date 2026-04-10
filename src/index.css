@@ -2728,3 +2728,66 @@ label {
 .form-container select:focus + .select-dropdown {
     animation: dropdownSlide 0.3s ease-out;
 }
+
+/* ==================== ADMISSION CLOSED BANNER ==================== */
+
+.admission-closed-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px 16px;
+    background: linear-gradient(135deg, #fff5f5, #fff0f0);
+    border: 1.5px solid #f5c6cb;
+    border-right: 6px solid #dc3545;
+    border-radius: 12px;
+    direction: rtl;
+    box-shadow: 0 4px 16px rgba(220, 53, 69, 0.1);
+}
+
+.admission-closed-banner__icon {
+    font-size: 36px;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.admission-closed-banner__text {
+    flex: 1;
+}
+
+.admission-closed-banner__text strong {
+    display: block;
+    font-size: 26px;
+    color: #c0392b;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.admission-closed-banner__text p {
+    font-size: 22px;
+    color: #555;
+    line-height: 1.8;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Disabled submit button — admission closed state */
+.submit-button:disabled {
+    background-color: #9ca3af !important;
+    border-color: #9ca3af !important;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+/* Inline spinner for status check */
+.btn-spinner {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+}

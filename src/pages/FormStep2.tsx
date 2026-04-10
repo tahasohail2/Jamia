@@ -553,6 +553,10 @@ export default function FormStep2() {
             if (response.ok) {
                 showToast('فارم کامیابی سے جمع ہو گیا', 'success');
                 navigate('/success', { state: { record: data } });
+            } else if (response.status === 403) {
+                // Admin closed admissions mid-session
+                showToast(data.message || 'داخلہ بند ہو گیا ہے', 'error');
+                setFieldErrors({ _admission: data.message || 'داخلہ بند ہو گیا ہے' });
             } else {
                 showToast(data.message || 'فارم جمع کرنے میں خرابی', 'error');
             }
@@ -589,7 +593,7 @@ export default function FormStep2() {
                                 id="student-name" 
                                 value={studentName} 
                                 onChange={handleStudentNameChange} 
-                                alphabeticOnly
+                                urduOnly
                                 error={fieldErrors.studentName}
                             />
                             <FormField 
@@ -597,7 +601,7 @@ export default function FormStep2() {
                                 id="father-name" 
                                 value={fatherName} 
                                 onChange={setFatherName}
-                                alphabeticOnly
+                                urduOnly
                             />
                             <FormField 
                                 label="تاریخ پیدائش" 
@@ -656,7 +660,8 @@ export default function FormStep2() {
                                 type="textarea" 
                                 id="full-address" 
                                 value={fullAddress} 
-                                onChange={setFullAddress} 
+                                onChange={setFullAddress}
+                                urduOnly
                             />
                             <FormField 
                                 label="موجودہ  پتہ (رہائش)" 
@@ -666,6 +671,7 @@ export default function FormStep2() {
                                 value={currentAddress} 
                                 onChange={handleCurrentAddressChange} 
                                 error={fieldErrors.currentAddress}
+                                urduOnly
                             />
 
                             <FormField
@@ -674,7 +680,7 @@ export default function FormStep2() {
                                 id="education-type"
                                 value={educationType}
                                 onChange={handleEducationTypeChange}
-                                alphabeticOnly
+                                urduOnly
                                 error={fieldErrors.educationType}
                             />
 
@@ -696,6 +702,7 @@ export default function FormStep2() {
                                 value={previousEducation}
                                 onChange={setPreviousEducation}
                                 hint="ادارے کا نام اور درجہ تعلیم لکھیں"
+                                urduOnly
                             />
 
                             {/* Document Upload Section */}
@@ -998,6 +1005,16 @@ export default function FormStep2() {
                                         </span>
                                     )}
                                 </button>
+
+                                {fieldErrors._admission && (
+                                    <div className="admission-closed-banner" role="alert" style={{ marginTop: '16px' }}>
+                                        <span className="admission-closed-banner__icon">⚠️</span>
+                                        <div className="admission-closed-banner__text">
+                                            <strong>داخلہ بند ہو گیا</strong>
+                                            <p>{fieldErrors._admission}</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {error && (
@@ -1054,7 +1071,7 @@ export default function FormStep2() {
                             id="student-name" 
                             value={studentName} 
                             onChange={handleStudentNameChange}
-                            alphabeticOnly
+                            urduOnly
                             error={fieldErrors.studentName}
                         />
                         <FormField 
@@ -1062,7 +1079,7 @@ export default function FormStep2() {
                             id="father-name" 
                             value={fatherName} 
                             onChange={setFatherName}
-                            alphabeticOnly
+                            urduOnly
                         />
                         <FormField 
                             label="تاریخ پیدائش" 
@@ -1120,7 +1137,8 @@ export default function FormStep2() {
                             type="textarea" 
                             id="full-address" 
                             value={fullAddress} 
-                            onChange={setFullAddress} 
+                            onChange={setFullAddress}
+                            urduOnly
                         />
                         <FormField 
                             label="موجودہ پتہ (رہائش)" 
@@ -1130,6 +1148,7 @@ export default function FormStep2() {
                             value={currentAddress} 
                             onChange={handleCurrentAddressChange} 
                             error={fieldErrors.currentAddress}
+                            urduOnly
                         />
 
                         <FormField
@@ -1188,6 +1207,7 @@ export default function FormStep2() {
                             id="remarks"
                             value={remarks}
                             onChange={setRemarks}
+                            urduOnly
                         />
 
                         {/* Document Upload Section */}
@@ -1491,6 +1511,16 @@ export default function FormStep2() {
                                     </span>
                                 )}
                             </button>
+
+                            {fieldErrors._admission && (
+                                <div className="admission-closed-banner" role="alert" style={{ marginTop: '16px' }}>
+                                    <span className="admission-closed-banner__icon">⚠️</span>
+                                    <div className="admission-closed-banner__text">
+                                        <strong>داخلہ بند ہو گیا</strong>
+                                        <p>{fieldErrors._admission}</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {error && (

@@ -121,7 +121,11 @@ export default function FormStep1() {
                         />
 
                         <div className="form-footer" style={{ marginTop: '48px' }}>
-                            <button className="submit-button" id="btn-step1-submit" onClick={handleSubmit}>
+                            <button
+                                className="submit-button"
+                                id="btn-step1-submit"
+                                onClick={handleSubmit}
+                            >
                                 اگلا مرحلہ
                                 <span className="button-icon-circle">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
